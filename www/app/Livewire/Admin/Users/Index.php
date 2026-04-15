@@ -11,6 +11,8 @@ class Index extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     public $search = '';
     public $roleFilter = '';
     public $editingId = null;
@@ -86,6 +88,29 @@ class Index extends Component
 
         session()->flash('message', 'Dados da identidade ' . $user->name . ' atualizados com sucesso.');
         $this->cancelEdit();
+    }
+
+    public function deleteUser($id)
+    {
+        if (auth()->user()->role !== \App\Enums\UserRoleEnum::ADMIN->value) {
+            abort(403);
+        }
+
+        if ($id == auth()->id()) {
+            session()->flash('error', 'Suicídio digital não permitido. Você não pode deletar a si mesmo.');
+            return;
+        }
+
+        $user = User::findOrFail($id);
+
+        if ($user->news()->exists()) {
+            // Em vez de quebrar o banco (Foreign Key Constraints), blindamos com aviso
+            session()->flash('error', 'Ops! ' . $user->name . ' possui matérias ligadas ao nome dele. Troque o status dele para Inativo em vez de deletar para não desfigurar o jornal.');
+            return;
+        }
+
+        $user->delete();
+        session()->flash('message', 'O registro da identidade foi varrido do banco permanentemente.');
     }
 
     public function render()

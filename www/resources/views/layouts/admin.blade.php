@@ -63,8 +63,13 @@
                 
                 @if(optional(auth()->user())->role === \App\Enums\UserRoleEnum::ADMIN->value)
                 <li class="nav-item border-top mt-3 pt-3">
-                    <a href="{{ route('admin.users.index') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->is('admin/users*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.users.index') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
                         <i class="bi bi-people-fill me-2"></i> Usuários e Acessos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.users.trash') }}" class="nav-link text-danger px-3 py-2 border-0 {{ request()->routeIs('admin.users.trash') ? 'bg-danger bg-opacity-10 fw-bold rounded-3' : '' }}">
+                        <i class="bi bi-trash-fill me-2"></i> Lixeira Central
                     </a>
                 </li>
                 @endif

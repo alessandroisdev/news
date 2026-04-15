@@ -109,9 +109,12 @@
                                         <span class="badge bg-secondary bg-opacity-10 text-muted"><i class="bi bi-dash"></i> Inativo</span>
                                     @endif
                                     
-                                    <div class="btn-group ms-3">
-                                        <button wire:click="edit({{ $user->id }})" class="btn btn-sm btn-light border hover-shadow" title="Editar Usuário"><i class="bi bi-pencil-square text-primary"></i></button>
-                                        <button class="btn btn-sm btn-light border hover-shadow" title="Bloquear Conta"><i class="bi bi-lock text-danger"></i></button>
+                                    <div class="btn-group ms-3 shadow-sm">
+                                        <button wire:click="edit({{ $user->id }})" class="btn btn-sm btn-light border text-primary position-relative" title="Editar Usuário">
+                                            <span wire:loading.remove wire:target="edit({{ $user->id }})"><i class="bi bi-pencil-square"></i></span>
+                                            <span wire:loading wire:target="edit({{ $user->id }})" class="spinner-border spinner-border-sm"></span>
+                                        </button>
+                                        <button wire:click="deleteUser({{ $user->id }})" wire:confirm="Tem absoluta certeza? Essa identidade será exterminada do banco." class="btn btn-sm btn-light border text-danger" title="Exterminar Conta"><i class="bi bi-trash3"></i></button>
                                     </div>
                                 </td>
                             </tr>
