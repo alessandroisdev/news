@@ -26,9 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/categories', \App\Livewire\Admin\Category\Index::class)->name('admin.categories.index');
     
     // Espaço do Assinante
-    Route::get('/assinante', function () {
-        return "Área Exclusiva Assinante (Premium)";
-    })->name('subscriber.dashboard');
+    Route::get('/assinante', \App\Livewire\Subscriber\Dashboard::class)->name('subscriber.dashboard');
 });
 
 // Logout Helper Session Drop
