@@ -9,7 +9,7 @@
 
     <!-- Dropdown inteligente com cache do Meilisearch -->
     @if(strlen($query) >= 2)
-        <div class="position-absolute top-100 mt-2 start-0 w-100 bg-white shadow px-0 pt-2 pb-2 rounded-4 overflow-hidden z-3 border" style="animation: fadeIn 0.2s ease-in-out;">
+        <div class="position-absolute top-100 mt-2 start-0 w-100 bg-white shadow px-0 pt-2 pb-2 rounded-4 overflow-hidden border" style="z-index: 1050 !important; animation: fadeIn 0.2s ease-in-out;">
             @forelse($results as $news)
                 <a href="/{{ $news->slug }}" class="d-flex flex-column text-decoration-none px-3 py-2 border-bottom hover-shadow-sm transition-all text-dark" style="background-color: transparent;" onmouseover="this.style.backgroundColor='#f8f9fa';" onmouseout="this.style.backgroundColor='transparent';">
                     <span class="fw-bold mb-1 lh-sm" style="font-size: 0.9rem;">{{ \Illuminate\Support\Str::limit($news->title, 55) }}</span>
