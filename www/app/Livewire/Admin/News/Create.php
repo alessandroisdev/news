@@ -43,7 +43,7 @@ class Create extends Component
         if ($user->role === UserRoleEnum::ADMIN->value || $user->role === UserRoleEnum::MANAGER->value) {
             $state = NewsStateEnum::PUBLISHED->value;
         } else {
-             $state = NewsStateEnum::REVIEW->value;
+             $state = NewsStateEnum::IN_REVIEW->value;
         }
 
         $news = new News();

@@ -30,7 +30,7 @@ class Dashboard extends Component
                 fn($q) => $q->where('author_id', $user->id)
             )->where('state', NewsStateEnum::PUBLISHED->value)->count();
             
-            $pendingReviews = News::where('state', NewsStateEnum::REVIEW->value)->count();
+            $pendingReviews = News::where('state', NewsStateEnum::IN_REVIEW->value)->count();
         }
         
         $categories = Category::count();

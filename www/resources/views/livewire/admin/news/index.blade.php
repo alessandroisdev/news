@@ -39,7 +39,7 @@
                                 <td class="py-3 px-4">
                                     @if($news->state === \App\Enums\NewsStateEnum::PUBLISHED->value)
                                         <span class="badge bg-success bg-opacity-10 text-success border border-success fw-semibold"><i class="bi bi-check-lg me-1"></i>Publicado</span>
-                                    @elseif($news->state === \App\Enums\NewsStateEnum::REVIEW->value)
+                                    @elseif($news->state === \App\Enums\NewsStateEnum::IN_REVIEW->value)
                                         <span class="badge bg-warning bg-opacity-25 text-dark border border-warning fw-semibold"><i class="bi bi-eye me-1"></i>Em Revisão</span>
                                     @else
                                         <span class="badge bg-secondary fw-semibold"><i class="bi bi-file-earmark me-1"></i>Rascunho</span>
