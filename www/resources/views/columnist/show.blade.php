@@ -40,7 +40,7 @@
     <div class="container mt-5">
         <h3 class="fw-bold mb-4 border-bottom border-primary pb-2" style="font-family: 'Outfit', sans-serif; border-bottom-width: 4px !important; display: inline-block;">Últimos Artigos</h3>
         <p class="text-muted">Explore todos os pensamentos e noticias escritas por {{ $columnist->name }}.</p>
-        <!-- Grid de notícias do colunista em Livewire -->
+        <livewire:frontend.columnist-news-grid :columnist="$columnist" />
     </div>
 </div>
 @endsection

@@ -34,9 +34,7 @@
 
     <div class="container mt-5">
         <!-- Livewire Component: Category News Grid (Paginação via Cursor na lógica) -->
-        <div class="alert alert-light border shadow-sm">
-            <i>Aqui entrará o componente interativo Livewire de paginação infinita (< cursorPaginate >).</i>
-        </div>
+        <livewire:frontend.category-news-grid :category="$category" />
     </div>
 </div>
 @endsection
