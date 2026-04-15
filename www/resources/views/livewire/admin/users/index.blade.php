@@ -160,7 +160,7 @@
                                             <span wire:loading.remove wire:target="edit({{ $user->id }})"><i class="bi bi-pencil-square"></i></span>
                                             <span wire:loading wire:target="edit({{ $user->id }})" class="spinner-border spinner-border-sm"></span>
                                         </button>
-                                        <button wire:click="deleteUser({{ $user->id }})" wire:confirm="Tem absoluta certeza? Essa identidade será exterminada do banco." class="btn btn-sm btn-light border text-danger" title="Exterminar Conta"><i class="bi bi-trash3"></i></button>
+                                        <button wire:click="confirmDelete({{ $user->id }})" class="btn btn-sm btn-light border text-danger" title="Exterminar Conta"><i class="bi bi-trash3"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -178,4 +178,30 @@
     <div class="mt-4">
         {{ $users->links() }}
     </div>
+
+    @if($confirmingDeletionId)
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.6); backdrop-filter: blur(3px);">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+          <div class="modal-header border-bottom-0 pb-0">
+            <h5 class="modal-title fw-bolder text-danger"><i class="bi bi-exclamation-octagon-fill me-2"></i>Confirmar Ação Destrutiva</h5>
+            <button type="button" wire:click="cancelDelete" class="btn-close" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-4 text-center">
+            <i class="bi bi-trash3 text-danger opacity-25" style="font-size: 4rem;"></i>
+            <p class="mt-3 mb-0 text-muted" style="font-size: 1.1rem;">
+                Você tem certeza absoluta? Essa identidade será revogada instantaneamente e jogada na Lixeira via SoftDeletes.
+            </p>
+          </div>
+          <div class="modal-footer border-top-0 pt-0 justify-content-center gap-2 pb-4">
+            <button type="button" wire:click="cancelDelete" class="btn btn-light fw-bold text-secondary px-4 border shadow-sm">Cancelar</button>
+            <button type="button" wire:click="deleteUser" class="btn btn-danger fw-bold shadow-sm px-4">
+                <span wire:loading.remove wire:target="deleteUser"><i class="bi bi-check2-circle me-1"></i> Sim, Exterminar</span>
+                <span wire:loading wire:target="deleteUser"><span class="spinner-border spinner-border-sm me-2"></span>Confirmando...</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    @endif
 </div>

@@ -11,16 +11,30 @@ class Trash extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public function restoreUser($id)
+    public $confirmingRestoreId = null;
+
+    public function confirmRestore($id)
+    {
+        $this->confirmingRestoreId = $id;
+    }
+
+    public function cancelRestore()
+    {
+        $this->confirmingRestoreId = null;
+    }
+
+    public function restoreUser()
     {
         if (auth()->user()->role !== \App\Enums\UserRoleEnum::ADMIN->value) {
             abort(403);
         }
 
+        $id = $this->confirmingRestoreId;
         $user = User::onlyTrashed()->findOrFail($id);
         $user->restore();
 
         session()->flash('message', 'A identidade de ' . $user->name . ' foi restaurada do exílio e voltou a ser listada no sistema principal!');
+        $this->cancelRestore();
     }
 
     public function render()

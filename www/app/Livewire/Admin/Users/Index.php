@@ -16,6 +16,7 @@ class Index extends Component
     public $search = '';
     public $roleFilter = '';
     public $editingId = null;
+    public $confirmingDeletionId = null;
     public $name;
     public $email;
     public $subscription_status;
@@ -138,27 +139,41 @@ class Index extends Component
         $this->cancelEdit();
     }
 
-    public function deleteUser($id)
+    public function confirmDelete($id)
+    {
+        $this->confirmingDeletionId = $id;
+    }
+
+    public function cancelDelete()
+    {
+        $this->confirmingDeletionId = null;
+    }
+
+    public function deleteUser()
     {
         if (auth()->user()->role !== \App\Enums\UserRoleEnum::ADMIN->value) {
             abort(403);
         }
 
+        $id = $this->confirmingDeletionId;
+
         if ($id == auth()->id()) {
             session()->flash('error', 'Suicídio digital não permitido. Você não pode deletar a si mesmo.');
+            $this->cancelDelete();
             return;
         }
 
         $user = User::findOrFail($id);
 
         if ($user->news()->exists()) {
-            // Em vez de quebrar o banco (Foreign Key Constraints), blindamos com aviso
             session()->flash('error', 'Ops! ' . $user->name . ' possui matérias ligadas ao nome dele. Troque o status dele para Inativo em vez de deletar para não desfigurar o jornal.');
+            $this->cancelDelete();
             return;
         }
 
         $user->delete();
         session()->flash('message', 'O registro da identidade foi varrido do banco permanentemente.');
+        $this->cancelDelete();
     }
 
     public function render()
