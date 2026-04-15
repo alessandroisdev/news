@@ -141,7 +141,7 @@
                                     </div>
                                 </td>
                                 <td class="py-3 px-4">
-                                    <select wire:model.live="roleFilter" wire:change="updateRole({{ $user->id }}, $event.target.value)" class="form-select form-select-sm shadow-none {{ $user->role === 'admin' ? 'border-primary text-primary fw-bold' : 'border-light' }}" style="width: 150px;">
+                                    <select wire:change="updateRole({{ $user->id }}, $event.target.value)" class="form-select form-select-sm shadow-none {{ $user->role === 'admin' ? 'border-primary text-primary fw-bold' : 'border-light' }}" style="width: 150px;">
                                         <option value="subscriber" {{ $user->role === 'subscriber' ? 'selected' : '' }}>Usuário Base</option>
                                         <option value="columnist" {{ $user->role === 'columnist' ? 'selected' : '' }}>Colunista Estrat.</option>
                                         <option value="manager" {{ $user->role === 'manager' ? 'selected' : '' }}>Gestor Moderador</option>
