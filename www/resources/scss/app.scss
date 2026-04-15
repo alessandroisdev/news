@@ -1,0 +1,31 @@
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+@import "plyr/dist/plyr.css";
+
+// CSS Custom Properties primárias que poderão ser sobrescritas por injeção nas views
+:root {
+    --portal-primary: #0056b3; /* Azul moderno default */
+    --portal-secondary: #ffc107; /* Amarelo ouro default */
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #333;
+}
+
+.text-primary {
+    color: var(--portal-primary) !important;
+}
+
+.bg-primary {
+    background-color: var(--portal-primary) !important;
+}
+
+.btn-primary {
+    background-color: var(--portal-primary);
+    border-color: var(--portal-primary);
+    &:hover {
+        filter: brightness(0.9);
+    }
+}
