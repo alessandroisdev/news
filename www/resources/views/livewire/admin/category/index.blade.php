@@ -18,7 +18,10 @@
             <!-- Formulario Reativo (Embutido para dinamismo direto) -->
             <div class="card border-0 shadow-sm rounded-4">
                 <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
-                    <h6 class="fw-bold text-primary mb-0"><i class="bi bi-tag-fill me-2"></i>Nova Entidade SEO</h6>
+                    <h6 class="fw-bold text-primary mb-0">
+                        <i class="bi bi-tag-fill me-2"></i>
+                        {{ $editingId ? 'Editar Entidade SEO' : 'Nova Entidade SEO' }}
+                    </h6>
                 </div>
                 <div class="card-body p-4">
                     <form wire:submit.prevent="save">
@@ -43,10 +46,15 @@
                             <textarea wire:model="description" class="form-control bg-light border-0 shadow-none" rows="3" placeholder="Foque no engajamento..."></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 fw-bold shadow-sm d-flex justify-content-center align-items-center" style="height: 50px;">
-                            <span wire:loading.remove wire:target="save">Integrar Categoria</span>
-                            <span wire:loading wire:target="save"><span class="spinner-border spinner-border-sm me-2"></span>Registrando...</span>
-                        </button>
+                        <div class="d-flex flex-column gap-2">
+                            <button type="submit" class="btn btn-primary w-100 fw-bold shadow-sm d-flex justify-content-center align-items-center" style="height: 50px;">
+                                <span wire:loading.remove wire:target="save">{{ $editingId ? 'Atualizar Categoria' : 'Integrar Categoria' }}</span>
+                                <span wire:loading wire:target="save"><span class="spinner-border spinner-border-sm me-2"></span>Registrando...</span>
+                            </button>
+                            @if($editingId)
+                                <button type="button" wire:click="cancelEdit" class="btn btn-light border text-danger w-100 fw-bold shadow-sm">Cancelar Edição</button>
+                            @endif
+                        </div>
                     </form>
                 </div>
             </div>
@@ -77,6 +85,7 @@
                                             </div>
                                         </td>
                                         <td class="py-3 px-4 text-end">
+                                            <button wire:click="edit({{ $category->id }})" class="btn btn-sm btn-light border text-primary hover-shadow me-2" title="Editar"><i class="bi bi-pencil-square"></i></button>
                                             <button class="btn btn-sm btn-light border text-danger hover-shadow" title="Mover p/ Lixeira"><i class="bi bi-trash3"></i></button>
                                         </td>
                                     </tr>

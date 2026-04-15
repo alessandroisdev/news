@@ -63,7 +63,7 @@
                 
                 @if(optional(auth()->user())->role === \App\Enums\UserRoleEnum::ADMIN->value)
                 <li class="nav-item border-top mt-3 pt-3">
-                    <a href="#" class="nav-link text-secondary px-3 py-2 border-0">
+                    <a href="{{ route('admin.users.index') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->is('admin/users*') ? 'active' : '' }}">
                         <i class="bi bi-people-fill me-2"></i> Usuários e Acessos
                     </a>
                 </li>

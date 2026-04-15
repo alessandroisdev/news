@@ -14,12 +14,32 @@ class Index extends Component
     public $name;
     public $description;
     public $theme_color = '#0056b3'; // Padrão azul moderno portal
+    public $editingId = null;
 
-    protected $rules = [
-        'name' => 'required|min:3|unique:categories,name',
-        'theme_color' => 'required|string',
-        'description' => 'nullable|string'
-    ];
+    protected function rules()
+    {
+        return [
+            'name' => 'required|min:3|unique:categories,name,' . $this->editingId,
+            'theme_color' => 'required|string',
+            'description' => 'nullable|string'
+        ];
+    }
+
+    public function edit($id)
+    {
+        $this->authorizeAdminOrManager();
+        $record = Category::findOrFail($id);
+        $this->editingId = $record->id;
+        $this->name = $record->name;
+        $this->description = $record->description;
+        $this->theme_color = $record->theme_color;
+    }
+
+    public function cancelEdit()
+    {
+        $this->reset(['name', 'description', 'theme_color', 'editingId']);
+        $this->theme_color = '#0056b3';
+    }
 
     public function save()
     {
@@ -27,7 +47,14 @@ class Index extends Component
 
         $this->validate();
 
-        $category = new Category();
+        if ($this->editingId) {
+            $category = Category::findOrFail($this->editingId);
+            $message = 'Categoria atualizada com sucesso no mapeamento global.';
+        } else {
+            $category = new Category();
+            $message = 'Categoria incorporada ao mapeamento de precedência do Roteador global.';
+        }
+
         $category->name = $this->name;
         // Observers detectam possíveis colisões com Notícias já gravadas e tratam por baixo dos panos
         $category->slug = Str::slug($this->name);
@@ -35,10 +62,9 @@ class Index extends Component
         $category->theme_color = $this->theme_color;
         $category->save();
 
-        session()->flash('message', 'Categoria incorporada ao mapeamento de precedência do Roteador global.');
+        session()->flash('message', $message);
         
-        $this->reset(['name', 'description', 'theme_color']);
-        $this->theme_color = '#0056b3';
+        $this->cancelEdit();
     }
 
     private function authorizeAdminOrManager()
