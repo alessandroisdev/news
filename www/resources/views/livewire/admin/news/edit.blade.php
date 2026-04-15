@@ -29,13 +29,28 @@
                         @error('category_id') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label fw-bold text-secondary small text-uppercase">Capa Dinâmica</label>
+                        <label class="form-label fw-bold text-secondary small text-uppercase d-block">Capa Dinâmica (Banner)</label>
+                        
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            @if($cover_image)
+                                <div class="position-relative rounded-3 overflow-hidden border shadow-sm border-success border-2" style="width: 140px; height: 90px; flex-shrink: 0;">
+                                    <img src="{{ $cover_image->temporaryUrl() }}" class="w-100 h-100 object-fit-cover" alt="Nova Capa Preview">
+                                    <div class="position-absolute bottom-0 w-100 text-center bg-success text-white py-1" style="font-size: 0.65rem; font-weight: bold;">NOVO PREVIEW</div>
+                                </div>
+                            @elseif($newsModel->cover_image)
+                                <div class="position-relative rounded-3 overflow-hidden shadow-sm border" style="width: 140px; height: 90px; flex-shrink: 0;">
+                                    <img src="{{ asset('storage/' . $newsModel->cover_image) }}" class="w-100 h-100 object-fit-cover" alt="Capa atual">
+                                    <div class="position-absolute bottom-0 w-100 text-center bg-dark text-white py-1 opacity-75" style="font-size: 0.65rem;">Capa Registrada</div>
+                                </div>
+                            @endif
+                            <div class="flex-grow-1">
                         <input type="file" wire:model="cover_image" class="form-control form-control-lg bg-light border-0 shadow-none @error('cover_image') is-invalid @enderror" accept="image/*">
                         @error('cover_image') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
-                        <div wire:loading wire:target="cover_image" class="text-primary small mt-2 fw-semibold">
-                            <span class="spinner-border spinner-border-sm me-1"></span> Renderizando para preview local...
+                            <div wire:loading wire:target="cover_image" class="text-primary small mt-2 fw-semibold">
+                                <span class="spinner-border spinner-border-sm me-1"></span> Renderizando para preview local...
+                            </div>
+                            <small class="text-muted d-block mt-2">Dica: Deixe este campo vazio caso você queira preservar a imagem de capa original que já existe.</small>
                         </div>
-                        <small class="text-muted d-block mt-2">Dica: Deixe este campo vazio caso você queira preservar a imagem de capa original vinculada a esta matéria no Glide.</small>
                     </div>
                 </div>
 

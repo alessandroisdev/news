@@ -13,6 +13,13 @@
         </div>
     @endif
 
+    @if (session()->has('error'))
+        <div class="alert alert-danger alert-dismissible bg-danger bg-opacity-10 text-danger border-danger border-opacity-25 fade show rounded-3" role="alert">
+            <i class="bi bi-shield-x me-2"></i> {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <div class="row g-4">
         <div class="col-lg-4">
             <!-- Formulario Reativo (Embutido para dinamismo direto) -->
@@ -86,7 +93,7 @@
                                         </td>
                                         <td class="py-3 px-4 text-end">
                                             <button wire:click="edit({{ $category->id }})" class="btn btn-sm btn-light border text-primary hover-shadow me-2" title="Editar"><i class="bi bi-pencil-square"></i></button>
-                                            <button class="btn btn-sm btn-light border text-danger hover-shadow" title="Mover p/ Lixeira"><i class="bi bi-trash3"></i></button>
+                                            <button wire:click="confirmDelete({{ $category->id }})" class="btn btn-sm btn-light border text-danger hover-shadow" title="Mover p/ Lixeira"><i class="bi bi-trash3"></i></button>
                                         </td>
                                     </tr>
                                 @empty
@@ -108,4 +115,30 @@
     <div class="mt-4">
         {{ $categories->links() }}
     </div>
+
+    @if($confirmingDeletionId)
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.6); backdrop-filter: blur(3px);">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+          <div class="modal-header border-bottom-0 pb-0">
+            <h5 class="modal-title fw-bolder text-danger"><i class="bi bi-exclamation-octagon-fill me-2"></i>Supressão Estrutural</h5>
+            <button type="button" wire:click="cancelDelete" class="btn-close" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-4 text-center">
+            <i class="bi bi-tags text-danger opacity-25" style="font-size: 4rem;"></i>
+            <p class="mt-3 mb-0 text-muted" style="font-size: 1.1rem;">
+                Você tem plena certeza de que essa raiz taxonômica deve sumir permanentemente do sistema de URLs e Arquivos?
+            </p>
+          </div>
+          <div class="modal-footer border-top-0 pt-0 justify-content-center gap-2 pb-4">
+            <button type="button" wire:click="cancelDelete" class="btn btn-light fw-bold text-secondary px-4 border shadow-sm">Cancelar</button>
+            <button type="button" wire:click="deleteCategory" class="btn btn-danger fw-bold shadow-sm px-4">
+                <span wire:loading.remove wire:target="deleteCategory"><i class="bi bi-check2-circle me-1"></i> Sim, Apagar Categoria</span>
+                <span wire:loading wire:target="deleteCategory"><span class="spinner-border spinner-border-sm me-2"></span>Confirmando...</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    @endif
 </div>

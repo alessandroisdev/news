@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
+use App\Traits\Auditable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class News extends Model
 {
-    use Searchable;
+    use HasFactory, Searchable, Auditable;
     protected $fillable = [
         'title',
         'slug',

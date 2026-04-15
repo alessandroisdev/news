@@ -72,6 +72,11 @@
                         <i class="bi bi-trash-fill me-2"></i> Lixeira Central
                     </a>
                 </li>
+                <li class="nav-item border-top mt-3 pt-3">
+                    <a href="{{ route('admin.audits.index') }}" class="nav-link text-warning px-3 py-2 border-0 {{ request()->routeIs('admin.audits.index') ? 'active bg-warning bg-opacity-10 fw-bold rounded-3' : '' }}">
+                        <i class="bi bi-eye-fill me-2"></i> Auditoria de Eventos
+                    </a>
+                </li>
                 @endif
             </ul>
             

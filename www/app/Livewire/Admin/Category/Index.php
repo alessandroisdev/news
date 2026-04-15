@@ -15,6 +15,7 @@ class Index extends Component
     public $description;
     public $theme_color = '#0056b3'; // Padrão azul moderno portal
     public $editingId = null;
+    public $confirmingDeletionId = null;
 
     protected function rules()
     {
@@ -73,6 +74,34 @@ class Index extends Component
         if (!in_array($role, [\App\Enums\UserRoleEnum::ADMIN->value, \App\Enums\UserRoleEnum::MANAGER->value])) {
             abort(403, 'Ação não autorizada pelo Sanctum.');
         }
+    }
+
+    public function confirmDelete($id)
+    {
+        $this->confirmingDeletionId = $id;
+    }
+
+    public function cancelDelete()
+    {
+        $this->confirmingDeletionId = null;
+    }
+
+    public function deleteCategory()
+    {
+        $this->authorizeAdminOrManager();
+
+        $id = $this->confirmingDeletionId;
+        $category = Category::findOrFail($id);
+
+        if ($category->news()->exists()) {
+            session()->flash('error', 'Ação Bloqueada: Fio Condutor Estrutural. Esta categoria abriga matérias vinculadas. Mova as matérias para outras categorias antes de varrê-la do mapa.');
+            $this->cancelDelete();
+            return;
+        }
+
+        $category->delete();
+        session()->flash('message', 'Estrutura categorizada varrida com sucesso.');
+        $this->cancelDelete();
     }
 
     public function render()

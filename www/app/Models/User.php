@@ -9,15 +9,15 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Auditable;
 
 #[Fillable(['name', 'email', 'password', 'role', 'slug', 'bio', 'theme_color', 'social_links', 'asaas_customer_id', 'subscription_status', 'subscription_expires_at'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes, Auditable;
 
     protected static function boot()
     {

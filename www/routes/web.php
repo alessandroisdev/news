@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/categories', \App\Livewire\Admin\Category\Index::class)->name('admin.categories.index');
     Route::get('/admin/users', \App\Livewire\Admin\Users\Index::class)->name('admin.users.index');
     Route::get('/admin/users/trash', \App\Livewire\Admin\Users\Trash::class)->name('admin.users.trash');
+    Route::get('/admin/audits', \App\Livewire\Admin\Audits\Index::class)->name('admin.audits.index');
     
     // Espaço do Assinante
     Route::get('/assinante', \App\Livewire\Subscriber\Dashboard::class)->name('subscriber.dashboard');
