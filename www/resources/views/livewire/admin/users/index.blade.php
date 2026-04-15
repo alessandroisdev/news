@@ -20,6 +20,42 @@
         </div>
     @endif
 
+    @if($editingId)
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-header bg-white border-bottom-0 p-4 pb-0">
+            <h6 class="fw-bold text-primary mb-0"><i class="bi bi-pencil-square me-2"></i>Editar Identidade: {{ $name }}</h6>
+        </div>
+        <div class="card-body p-4">
+            <form wire:submit.prevent="save">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary text-uppercase small">Nome Público</label>
+                        <input type="text" wire:model="name" class="form-control bg-light border-0 shadow-none">
+                        @error('name') <span class="text-danger small">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary text-uppercase small">E-mail Corporativo</label>
+                        <input type="email" wire:model="email" class="form-control bg-light border-0 shadow-none">
+                        @error('email') <span class="text-danger small">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary text-uppercase small">Status Assinatura</label>
+                        <select wire:model="subscription_status" class="form-select bg-light border-0 shadow-none">
+                            <option value="active">Ativo (VIP)</option>
+                            <option value="inactive">Inativo (Bloqueado/Sem plano)</option>
+                        </select>
+                        @error('subscription_status') <span class="text-danger small">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="col-12 mt-3 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary fw-bold px-4">Salvar Alterações</button>
+                        <button type="button" wire:click="cancelEdit" class="btn btn-light border text-danger fw-bold px-4">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    @endif
+
     <div class="card border-0 shadow-sm rounded-4 h-100">
         <div class="card-header bg-white border-bottom-0 p-4 d-flex gap-3">
             <div class="input-group" style="max-width: 300px;">
@@ -74,6 +110,7 @@
                                     @endif
                                     
                                     <div class="btn-group ms-3">
+                                        <button wire:click="edit({{ $user->id }})" class="btn btn-sm btn-light border hover-shadow" title="Editar Usuário"><i class="bi bi-pencil-square text-primary"></i></button>
                                         <button class="btn btn-sm btn-light border hover-shadow" title="Bloquear Conta"><i class="bi bi-lock text-danger"></i></button>
                                     </div>
                                 </td>

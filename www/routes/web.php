@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
     // Módulos CRUD do Painel Administrativo
     Route::get('/admin/news', \App\Livewire\Admin\News\Index::class)->name('admin.news.index');
     Route::get('/admin/news/create', \App\Livewire\Admin\News\Create::class)->name('admin.news.create');
+    Route::get('/admin/news/{news}/edit', \App\Livewire\Admin\News\Edit::class)->name('admin.news.edit');
     Route::get('/admin/categories', \App\Livewire\Admin\Category\Index::class)->name('admin.categories.index');
     Route::get('/admin/users', \App\Livewire\Admin\Users\Index::class)->name('admin.users.index');
     

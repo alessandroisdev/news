@@ -53,7 +53,7 @@
                                 </td>
                                 <td class="py-3 px-4 text-end">
                                     <div class="btn-group shadow-sm">
-                                        <button class="btn btn-sm btn-light border text-primary" title="Editar / Revisar"><i class="bi bi-pencil-square"></i></button>
+                                        <a href="{{ route('admin.news.edit', $news->id) }}" class="btn btn-sm btn-light border text-primary" title="Editar / Revisar"><i class="bi bi-pencil-square"></i></a>
                                         <button class="btn btn-sm btn-light border text-danger" title="Mover p/ Lixeira"><i class="bi bi-trash3"></i></button>
                                     </div>
                                 </td>

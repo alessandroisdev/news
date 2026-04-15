@@ -13,6 +13,19 @@ class Index extends Component
 
     public $search = '';
     public $roleFilter = '';
+    public $editingId = null;
+    public $name;
+    public $email;
+    public $subscription_status;
+
+    protected function rules()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $this->editingId,
+            'subscription_status' => 'required|string',
+        ];
+    }
 
     public function updatingSearch()
     {
@@ -41,6 +54,38 @@ class Index extends Component
         $user->save();
 
         session()->flash('message', 'Nível de acesso de ' . $user->name . ' atualizado para ' . $newRole . '.');
+    }
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        $this->editingId = $user->id;
+        $this->name = $user->name;
+        $this->email = $user->email;
+        $this->subscription_status = $user->subscription_status;
+    }
+
+    public function cancelEdit()
+    {
+        $this->reset(['editingId', 'name', 'email', 'subscription_status']);
+    }
+
+    public function save()
+    {
+        if (auth()->user()->role !== \App\Enums\UserRoleEnum::ADMIN->value) {
+            abort(403);
+        }
+
+        $this->validate();
+
+        $user = User::findOrFail($this->editingId);
+        $user->name = $this->name;
+        $user->email = $this->email;
+        $user->subscription_status = $this->subscription_status;
+        $user->save();
+
+        session()->flash('message', 'Dados da identidade ' . $user->name . ' atualizados com sucesso.');
+        $this->cancelEdit();
     }
 
     public function render()
