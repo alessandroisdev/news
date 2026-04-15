@@ -17,6 +17,17 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($user) {
+            if (empty($user->slug) && $user->role === \App\Enums\UserRoleEnum::COLUMNIST->value) {
+                $user->slug = \Illuminate\Support\Str::slug($user->name) . '-' . uniqid();
+            }
+        });
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -28,5 +39,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function news()
+    {
+        return $this->hasMany(\App\Models\News::class, 'author_id');
     }
 }

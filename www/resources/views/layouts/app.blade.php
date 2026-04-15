@@ -24,6 +24,7 @@
 
     <main class="main-content">
         @yield('content')
+        {{ $slot ?? '' }}
     </main>
 
     @include('layouts.partials.footer')

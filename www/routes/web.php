@@ -7,7 +7,12 @@ Route::get('/', function () {
 });
 
 // Encurtador de Link (Base62)
+// Encurtador de Link (Base62)
 Route::get('/link/{hash}', [\App\Http\Controllers\LinkShortenerController::class, 'redirect'])->name('link.redirect');
+
+// Telas Principais do Frontend
+Route::get('/ultimas', \App\Livewire\Frontend\LatestNews::class)->name('frontend.latest');
+Route::get('/colunistas', \App\Livewire\Frontend\ColumnistsIndex::class)->name('frontend.columnists');
 
 // Roteador Dinâmico On the Fly de Mídias (Glide)
 Route::get('/images/{slug}/{width?}/{height?}', [\App\Http\Controllers\MediaController::class, 'image'])->name('media.image');
@@ -40,5 +45,5 @@ Route::post('/logout', function (\Illuminate\Http\Request $request) {
 
 // Roteador Global Dinâmico da Raiz (Fallback Categoria>Coluna>Notícia)
 Route::get('/{slug}', [\App\Http\Controllers\FallbackRouteController::class, 'resolve'])
-    ->where('slug', '^(?!images|videos|link|api|login|admin|assinante|logout).*$')
+    ->where('slug', '^(?!images|videos|link|api|login|admin|assinante|logout|ultimas|colunistas).*$')
     ->name('dynamic.slug');

@@ -37,7 +37,14 @@ class FallbackRouteController extends Controller
             ->first();
             
         if ($news) {
-            return view('news.show', compact('news'));
+            $relatedNews = News::where('category_id', $news->category_id)
+                ->where('id', '!=', $news->id)
+                ->where('state', NewsStateEnum::PUBLISHED->value)
+                ->latest('published_at')
+                ->take(4)
+                ->get();
+                
+            return view('news.show', compact('news', 'relatedNews'));
         }
 
         abort(404, 'Conteúdo não encontrado');

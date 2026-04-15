@@ -23,7 +23,11 @@
             <div class="d-flex align-items-center text-muted small mb-4 pb-3 border-bottom">
                 <div class="me-4 d-flex align-items-center">
                     <img src="/images/{{ $news->author->avatar ?? 'default.jpg' }}/32x32" class="rounded-circle me-2" alt="">
-                    <span>Por <a href="/{{ $news->author->slug ?? '#' }}" class="text-decoration-none fw-semibold text-primary">{{ $news->author->name ?? 'Redação' }}</a></span>
+                    @if($news->author && $news->author->slug)
+                        <span>Por <a href="/{{ $news->author->slug }}" class="text-decoration-none fw-semibold text-primary">{{ $news->author->name }}</a></span>
+                    @else
+                        <span>Por <span class="fw-semibold" style="color: var(--portal-primary);">{{ $news->author->name ?? 'Redação' }}</span></span>
+                    @endif
                 </div>
                 <div>
                     <i class="bi bi-calendar3 me-1"></i> Publicado em {{ $news->published_at ? $news->published_at->format('d/m/Y \à\s H:i') : 'N/A' }}
@@ -54,16 +58,19 @@
                  <h4 class="fw-bold mb-4 border-bottom border-primary pb-2" style="font-family: 'Outfit', sans-serif; border-bottom-width: 4px !important; display: inline-block;">Leia Também</h4>
                  
                  <div class="d-flex flex-column gap-3">
-                     <!-- Esse bloco futuramente puxará Noticias via Algoritmo de Similaridade Meilisearch -->
-                     <a href="#" class="text-decoration-none p-3 shadow-sm rounded-3 border bg-white d-flex" style="transition: all 0.2s;" onmouseover="this.classList.add('border-primary');" onmouseout="this.classList.remove('border-primary');">
+                     @forelse($relatedNews as $related)
+                     <a href="/{{ $related->slug }}" class="text-decoration-none p-3 shadow-sm rounded-3 border bg-white d-flex" style="transition: all 0.2s;" onmouseover="this.classList.add('border-primary');" onmouseout="this.classList.remove('border-primary');">
                          <div style="width: 80px; height: 80px; flex-shrink: 0;" class="bg-light rounded overflow-hidden me-3">
-                             <img src="/images/placeholder/80x80" class="w-100 h-100 object-fit-cover" alt="">
+                             <img src="/images/{{ $related->slug }}/80x80" class="w-100 h-100 object-fit-cover" alt="">
                          </div>
                          <div>
-                             <h6 class="fw-bold text-dark mb-1 lh-sm" style="font-size: 0.95rem;">Titulo longo da materia relacionada gerando curiosidade</h6>
-                             <small class="text-muted">Há 2 horas</small>
+                             <h6 class="fw-bold text-dark mb-1 lh-sm" style="font-size: 0.85rem;">{{ \Illuminate\Support\Str::limit($related->title, 55) }}</h6>
+                             <small class="text-muted" style="font-size: 0.70rem;"><i class="bi bi-clock me-1"></i>{{ $related->published_at->diffForHumans() }}</small>
                          </div>
                      </a>
+                     @empty
+                     <p class="text-muted small">Nenhuma listagem adicional.</p>
+                     @endforelse
                  </div>
              </div>
         </div>

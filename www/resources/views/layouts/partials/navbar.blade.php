@@ -7,10 +7,10 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMain">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-semibold">
-        <li class="nav-item"><a class="nav-link active" href="/">Início</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Últimas</a></li>
-        <li class="nav-item"><a class="nav-link text-warning" href="#">Colunistas</a></li>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-semibold text-uppercase" style="font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 0.5px;">
+        <li class="nav-item"><a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">Início</a></li>
+        <li class="nav-item"><a class="nav-link {{ request()->is('ultimas') ? 'active' : '' }}" href="/ultimas">Últimas</a></li>
+        <li class="nav-item"><a class="nav-link text-warning {{ request()->is('colunistas') ? 'fw-bold' : '' }}" href="/colunistas">Colunistas</a></li>
       </ul>
       <livewire:frontend.navbar-search />
     </div>
