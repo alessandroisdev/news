@@ -20,46 +20,8 @@
             <p class="text-muted mb-0 fw-semibold"><i class="bi bi-badge-ad me-2 text-primary"></i>Espaço Publicitário Premium (Hero Banner)</p>
         </div>
 
-        <!-- Seção Dinâmica por Cookies/Meilisearch (Sugestões via Livewire) -->
-        <div class="row g-5">
-            <div class="col-12 col-lg-8">
-                <h3 class="fw-bold mb-4 border-bottom border-warning pb-2" style="font-family: 'Outfit', sans-serif; border-bottom-width: 4px !important; display: inline-block;">Recomendado para Você</h3>
-                
-                <!-- Grid Notícias Inteligente -->
-                <div class="row g-4">
-                    <!-- Placeholder Card (Interativo) -->
-                    <div class="col-md-6">
-                        <a href="#" class="text-decoration-none">
-                            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden" style="transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-                                <div class="bg-secondary p-5 text-center text-white d-flex align-items-center justify-content-center" style="height: 220px;">
-                                    <i class="bi bi-image" style="font-size: 3rem; opacity: 0.5;"></i>
-                                </div>
-                                <div class="card-body">
-                                    <span class="badge bg-primary mb-3 px-3 py-2 rounded-pill">Arquitetura</span>
-                                    <h5 class="card-title fw-bold text-dark">Portal arquitetado com Meilisearch e Octane entra no ar</h5>
-                                    <p class="card-text text-muted small mt-2">Um sistema escalável, sem starter kits complexos, utilizando Laravel 12 nativo, permitindo resiliência em falhas e consultas semânticas poderosas.</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-12 col-lg-4">
-                <h3 class="fw-bold mb-4 border-bottom border-primary pb-2" style="font-family: 'Outfit', sans-serif; border-bottom-width: 4px !important; display: inline-block;">Em Alta</h3>
-                <div class="d-flex flex-column gap-3">
-                    <a href="#" class="text-decoration-none p-3 bg-white shadow-sm rounded-3" style="transition: all 0.2s; border-left: 5px solid var(--portal-primary);" onmouseover="this.style.transform='translateX(5px)'; " onmouseout="this.style.transform='translateX(0)';">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <h6 class="fw-bold text-primary mb-1">Engenharia de Software</h6>
-                                <p class="mb-0 small text-dark fw-semibold">Nova máquina de estado (State Machine) substitui lógicas obscuras.</p>
-                            </div>
-                            <span class="badge bg-light text-muted border">#1</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
+        <!-- Seção Dinâmica e Real Baseada no Banco -->
+        <livewire:frontend.home />
     </div>
 </div>
 @endsection

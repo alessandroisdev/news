@@ -36,22 +36,22 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // 2. Criando SEO Categories Puras (Precedência /slug)
-        $catTecnologia = Category::firstOrCreate(['slug' => 'tecnologia'], [
-            'name' => 'Engenharia & Tech',
+        $catTecnologia = Category::firstOrCreate(['name' => 'Engenharia & Tech Core'], [
+            'slug' => 'core-tec',
             'description' => 'Acompanhe novidades disruptivas sobre inteligência artifical e frameworks web avançados.',
-            'theme_color' => '#0d6efd' // Primary Bootstrap Genérico
+            'theme_color' => '#0d6efd'
         ]);
 
-        $catShow = Category::firstOrCreate(['slug' => 'show'], [
-            'name' => 'Entretenimento',
+        $catShow = Category::firstOrCreate(['name' => 'Entretenimento Core'], [
+            'slug' => 'core-show',
             'description' => 'Acompanhe as estreias espetaculares focadas no mundo do cinema!',
-            'theme_color' => '#ffc107' // Warning Yellow
+            'theme_color' => '#ffc107'
         ]);
 
-        $catAgro = Category::firstOrCreate(['slug' => 'agro'], [
-            'name' => 'Agronegócio',
+        $catAgro = Category::firstOrCreate(['name' => 'Agronegócio Core'], [
+            'slug' => 'core-agro',
             'description' => 'Evolução e desenvolvimento da colheita interativa e sustentável.',
-            'theme_color' => '#198754' // Success Green
+            'theme_color' => '#198754'
         ]);
 
         // 3. Matérias Oficiais da Redação (Publicadas imediatamente pelo StateMachine Level superior)
