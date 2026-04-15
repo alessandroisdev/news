@@ -1,17 +1,23 @@
 <div class="container py-5">
-    
-    @if (session()->has('message'))
-        <div class="alert alert-success alert-dismissible bg-success bg-opacity-10 text-success border-success border-opacity-25 fade show rounded-3" role="alert">
-            <i class="bi bi-info-circle-fill me-2"></i> {{ session('message') }}
-        </div>
-    @endif
 
-    <div class="row mb-5 align-items-center bg-white p-4 p-md-5 rounded-4 shadow-sm border position-relative overflow-hidden z-1">
-        <div class="position-absolute end-0 top-0 text-light opacity-50 pe-none z-n1" style="transform: translate(20%, -30%);">
-            <i class="bi bi-award-fill" style="font-size: 30rem;"></i>
-        </div>
+    <div class="row">
+        <!-- Sidebar Navigation (Específica do Assinante VIP) -->
+        @include('layouts.partials.subscriber-sidebar')
 
         <div class="col-lg-9">
+            
+            @if (session()->has('message'))
+                <div class="alert alert-success alert-dismissible bg-success bg-opacity-10 text-success border-success border-opacity-25 fade show rounded-3" role="alert">
+                    <i class="bi bi-info-circle-fill me-2"></i> {{ session('message') }}
+                </div>
+            @endif
+
+            <div class="row mb-5 align-items-center bg-white p-4 p-md-5 rounded-4 shadow-sm border position-relative overflow-hidden z-1 ms-lg-1">
+                <div class="position-absolute end-0 top-0 text-light opacity-50 pe-none z-n1" style="transform: translate(20%, -30%);">
+                    <i class="bi bi-award-fill" style="font-size: 30rem;"></i>
+                </div>
+
+                <div class="col-12">
             @if($isActive)
                 <div class="d-inline-flex align-items-center bg-warning bg-opacity-25 text-dark mb-3 px-3 py-2 rounded-pill fw-bolder border border-warning shadow-sm" style="letter-spacing: 1.5px; font-size: 0.8rem;">
                     <i class="bi bi-star-fill text-warning me-2"></i> ASSINATURA ATIVA (MENSAL)
@@ -117,6 +123,8 @@
                     <p class="small opacity-75">Nossa redação trabalhará nesta semana sobre artigos longos VIP.</p>
                 </div>
             @endforelse
-        </div>
-    @endif
+        @endif
+        
+        </div> <!-- End of col-lg-9 -->
+    </div> <!-- End of row -->
 </div>

@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function () {
     
     // Espaço do Assinante
     Route::get('/assinante', \App\Livewire\Subscriber\Dashboard::class)->name('subscriber.dashboard');
+    Route::get('/assinante/perfil', \App\Livewire\Subscriber\Profile::class)->name('subscriber.profile');
+    Route::get('/assinante/pagamentos', \App\Livewire\Subscriber\Payments::class)->name('subscriber.payments');
+    Route::get('/assinante/configuracoes', \App\Livewire\Subscriber\Settings::class)->name('subscriber.settings');
 });
 
 // Logout Helper Session Drop
