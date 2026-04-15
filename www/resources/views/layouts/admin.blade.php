@@ -51,7 +51,7 @@
                 </li>
                 
                 <li class="nav-item">
-                    <a href="#" class="nav-link text-secondary px-3 py-2 border-0">
+                    <a href="{{ route('admin.news.index') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->is('admin/news*') ? 'active' : '' }}">
                         <i class="bi bi-journal-text me-2"></i> Minhas Notícias
                     </a>
                 </li>

@@ -20,6 +20,10 @@ Route::middleware('auth')->group(function () {
     // Espaço da Gestão (Totalmente integrado no Livewire em tempo real)
     Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
     
+    // Módulos CRUD do Painel Administrativo
+    Route::get('/admin/news', \App\Livewire\Admin\News\Index::class)->name('admin.news.index');
+    Route::get('/admin/news/create', \App\Livewire\Admin\News\Create::class)->name('admin.news.create');
+    
     // Espaço do Assinante
     Route::get('/assinante', function () {
         return "Área Exclusiva Assinante (Premium)";
