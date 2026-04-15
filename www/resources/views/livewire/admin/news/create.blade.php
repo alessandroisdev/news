@@ -1,4 +1,7 @@
 <div>
+    @push('styles')
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    @endpush
     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
         <h3 class="fw-bolder text-dark mb-0" style="font-family: 'Outfit', sans-serif;">Pauta Jornalística</h3>
         <a href="{{ route('admin.news.index') }}" class="btn btn-light border fw-bold shadow-sm">
@@ -38,16 +41,30 @@
                     </div>
                 </div>
 
-                <div class="mb-5 border rounded-3 overflow-hidden bg-light border-light">
-                    <!-- Opcional de forma nativa não usar rich text pesado a não sr que seja exigido. Focamos no purismo -->
-                    <div class="bg-white p-2 border-bottom d-flex gap-2">
-                        <button class="btn btn-sm btn-light border" type="button"><i class="bi bi-type-bold"></i></button>
-                        <button class="btn btn-sm btn-light border" type="button"><i class="bi bi-link-45deg"></i></button>
-                        <button class="btn btn-sm btn-light border" type="button"><i class="bi bi-image"></i></button>
+                <div class="mb-5 border rounded-3 overflow-hidden bg-white border-light" wire:ignore>
+                    <div x-data="{ content: @entangle('content') }" x-init="
+                        let quill = new Quill($refs.quillEditor, {
+                            theme: 'snow',
+                            placeholder: 'Comece a desenvolver sua matéria integralmente aqui...',
+                            modules: {
+                                toolbar: [
+                                    [{ 'header': [2, 3, false] }],
+                                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                    ['link', 'image', 'video'],
+                                    ['clean']
+                                ]
+                            }
+                        });
+                        quill.root.innerHTML = content;
+                        quill.on('text-change', function () {
+                            content = quill.root.innerHTML;
+                        });
+                    ">
+                        <div x-ref="quillEditor" style="min-height: 400px; font-family: 'Inter', sans-serif; font-size: 1.05rem;"></div>
                     </div>
-                    <textarea wire:model="content" class="form-control border-0 shadow-none" rows="12" style="background-color: #fafbfc; resize: vertical;" placeholder="Desenvolva sua matéria integralmente aqui..."></textarea>
-                    @error('content') <div class="invalid-feedback d-block fw-bold p-2">{{ $message }}</div> @enderror
                 </div>
+                @error('content') <div class="invalid-feedback d-block fw-bold p-2 mb-4">{{ $message }}</div> @enderror
 
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center bg-light p-4 rounded-3 border">
                     <div class="me-auto text-muted small d-flex mb-3 mb-md-0">
@@ -65,4 +82,7 @@
             </form>
         </div>
     </div>
+    @push('scripts')
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    @endpush
 </div>

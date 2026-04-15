@@ -74,7 +74,7 @@ class News extends Model
             'id' => $this->id,
             'title' => $this->title,
             'content' => strip_tags($this->content),
-            'state' => $this->state->value ?? $this->state,
+            'state' => $this->state instanceof \BackedEnum ? $this->state->value : $this->state,
             'category_name' => $this->category ? $this->category->name : '',
         ];
     }

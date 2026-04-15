@@ -19,12 +19,14 @@ class Edit extends Component
     public $title;
     public $content;
     public $category_id;
+    public $state;
     public $cover_image;
 
     protected $rules = [
         'title' => 'required|min:5|max:255',
         'content' => 'required|min:20',
         'category_id' => 'required|exists:categories,id',
+        'state' => 'required|string',
         'cover_image' => 'nullable|image|max:4048' // Limite superior pro file system
     ];
 
@@ -34,6 +36,7 @@ class Edit extends Component
         $this->title = $news->title;
         $this->content = $news->content;
         $this->category_id = $news->category_id;
+        $this->state = $news->state instanceof \BackedEnum ? $news->state->value : $news->state;
     }
 
     public function save()
@@ -42,12 +45,9 @@ class Edit extends Component
 
         $user = Auth::user();
         
-        // Mantém a máquina de estados existente ou aprova instantaneamente se for um Admin alterando.
-        if ($user->role === UserRoleEnum::ADMIN->value || $user->role === UserRoleEnum::MANAGER->value) {
-            $this->newsModel->state = NewsStateEnum::PUBLISHED->value;
-            if (!$this->newsModel->published_at) {
-                $this->newsModel->published_at = now();
-            }
+        $this->newsModel->state = $this->state;
+        if ($this->state === NewsStateEnum::PUBLISHED->value && !$this->newsModel->published_at) {
+            $this->newsModel->published_at = now();
         }
 
         $this->newsModel->title = $this->title;
