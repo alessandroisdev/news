@@ -6,9 +6,11 @@ use App\Enums\NewsStateEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 
 class News extends Model
 {
+    use Searchable;
     protected $fillable = [
         'title',
         'slug',
@@ -59,5 +61,19 @@ class News extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    /**
+     * Mapeamento dos campos que serão indexados pelo Meilisearch
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'content' => strip_tags($this->content),
+            'state' => $this->state->value ?? $this->state,
+            'category_name' => $this->category ? $this->category->name : '',
+        ];
     }
 }
