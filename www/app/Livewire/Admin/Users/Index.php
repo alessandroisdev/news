@@ -20,6 +20,12 @@ class Index extends Component
     public $email;
     public $subscription_status;
 
+    public $isCreating = false;
+    public $newName = '';
+    public $newEmail = '';
+    public $newRole = 'subscriber';
+    public $newPassword = '';
+
     protected function rules()
     {
         return [
@@ -58,13 +64,55 @@ class Index extends Component
         session()->flash('message', 'Nível de acesso de ' . $user->name . ' atualizado para ' . $newRole . '.');
     }
 
+    public function create()
+    {
+        $this->cancelEdit();
+        $this->isCreating = true;
+        $this->reset(['newName', 'newEmail', 'newRole', 'newPassword']);
+    }
+
+    public function cancelCreate()
+    {
+        $this->isCreating = false;
+    }
+
+    public function store()
+    {
+        if (auth()->user()->role !== \App\Enums\UserRoleEnum::ADMIN->value) {
+            abort(403);
+        }
+
+        $this->validate([
+            'newName' => 'required|string|max:255',
+            'newEmail' => 'required|email|unique:users,email',
+            'newRole' => 'required|string',
+            'newPassword' => 'required|min:6', // Minimum length
+        ]);
+
+        $user = new User();
+        $user->name = $this->newName;
+        $user->email = $this->newEmail;
+        $user->role = $this->newRole;
+        $user->password = \Illuminate\Support\Facades\Hash::make($this->newPassword);
+        
+        $colors = ['#0d6efd', '#6f42c1', '#d63384', '#fd7e14', '#198754', '#0dcaf0'];
+        $user->theme_color = $colors[array_rand($colors)];
+        $user->subscription_status = 'active';
+
+        $user->save();
+
+        session()->flash('message', 'A identidade de ' . $user->name . ' foi forjada com a patente de ' . strtoupper($user->role) . '!');
+        $this->cancelCreate();
+    }
+
     public function edit($id)
     {
+        $this->cancelCreate();
         $user = User::findOrFail($id);
         $this->editingId = $user->id;
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->subscription_status = $user->subscription_status;
+        $this->subscription_status = $user->subscription_status ?? 'inactive';
     }
 
     public function cancelEdit()

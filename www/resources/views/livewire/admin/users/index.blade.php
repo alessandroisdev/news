@@ -4,6 +4,9 @@
             <h3 class="fw-bolder text-dark mb-1" style="font-family: 'Outfit', sans-serif;">Usuários e Acessos</h3>
             <p class="text-muted small mb-0">Auditoria, promoção de colunistas e gestão de privilégios de todo o sistema.</p>
         </div>
+        <button wire:click="create" class="btn btn-primary fw-bold shadow-sm d-flex align-items-center">
+            <i class="bi bi-person-plus-fill me-2"></i> Adicionar Manualmente
+        </button>
     </div>
     
     @if (session()->has('message'))
@@ -18,6 +21,49 @@
             <i class="bi bi-shield-x me-2"></i> {{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+    @endif
+
+    @if($isCreating)
+    <div class="card border-0 shadow-sm rounded-4 mb-4 bg-primary bg-opacity-10 border border-primary border-opacity-25">
+        <div class="card-header bg-transparent border-bottom-0 p-4 pb-0">
+            <h6 class="fw-bold text-primary mb-0"><i class="bi bi-person-plus-fill me-2"></i>Forjar Nova Identidade Oficial</h6>
+        </div>
+        <div class="card-body p-4">
+            <form wire:submit.prevent="store">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold text-secondary text-uppercase small">Nome/Apelido Público</label>
+                        <input type="text" wire:model="newName" class="form-control bg-white border-0 shadow-sm" placeholder="Ex: Jornalista Rápido">
+                        @error('newName') <span class="text-danger small fw-bold">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold text-secondary text-uppercase small">E-mail de Login</label>
+                        <input type="email" wire:model="newEmail" class="form-control bg-white border-0 shadow-sm" placeholder="email@vazamentonews.com">
+                        @error('newEmail') <span class="text-danger small fw-bold">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold text-secondary text-uppercase small">Senha Temporária</label>
+                        <input type="password" wire:model="newPassword" class="form-control bg-white border-0 shadow-sm" placeholder="Mínimo 6 chars">
+                        @error('newPassword') <span class="text-danger small fw-bold">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold text-secondary text-uppercase small">Patente (Role)</label>
+                        <select wire:model="newRole" class="form-select bg-white border-0 shadow-sm text-primary fw-bold">
+                            <option value="subscriber">Assinante VIP</option>
+                            <option value="columnist">Colunista / Escritor</option>
+                            <option value="manager">Gestor de Conteúdo</option>
+                            <option value="admin">Administrador Global</option>
+                        </select>
+                        @error('newRole') <span class="text-danger small fw-bold">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="col-12 mt-4 text-end border-top pt-3 border-primary border-opacity-10">
+                        <button type="button" wire:click="cancelCreate" class="btn btn-light border text-danger fw-bold px-4 me-2">Cancelar</button>
+                        <button type="submit" class="btn btn-primary fw-bold shadow px-5">Liberar Crachá (Criar)</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     @endif
 
     @if($editingId)
@@ -82,7 +128,7 @@
                     </thead>
                     <tbody>
                         @forelse($users as $user)
-                            <tr>
+                            <tr wire:key="user-row-{{ $user->id }}-{{ $user->updated_at }}">
                                 <td class="py-3 px-4">
                                     <div class="d-flex align-items-center">
                                         <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm me-3" style="width: 36px; height: 36px; background-color: {{ $user->theme_color ?? '#adb5bd' }};">
