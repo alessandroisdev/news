@@ -12,10 +12,7 @@
         <li class="nav-item"><a class="nav-link" href="#">Últimas</a></li>
         <li class="nav-item"><a class="nav-link text-warning" href="#">Colunistas</a></li>
       </ul>
-      <form class="d-flex ms-lg-4 position-relative">
-        <input class="form-control rounded-pill bg-light border-0 px-4" type="search" placeholder="Busca semântica avançada...">
-        <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
-      </form>
+      <livewire:frontend.navbar-search />
     </div>
   </div>
 </nav>
