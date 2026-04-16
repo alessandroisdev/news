@@ -69,7 +69,7 @@ Engrenagens de tráfego orgânico nativo que substituem dezenas de bibliotecas a
 ## 🛠️ Stack Tecnológica
 
 *   [PHP 8.4+](https://php.net) - A fundação da máquina
-*   [Laravel 11.x](https://laravel.com) - Framework Arquitetural MVC
+*   [Laravel 13.x](https://laravel.com) - Framework Arquitetural MVC
 *   [Livewire 3.x](https://livewire.laravel.com/) - Server-Side Reactive UI
 *   [Bootstrap 5.3](https://getbootstrap.com) / Vanilla SCSS - Componentes e Framework Grid Visual
 *   [Docker Sail](https://laravel.com/docs/sail) - Containerização do ambiente local
