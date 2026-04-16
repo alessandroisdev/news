@@ -138,6 +138,7 @@
             }
         });
     </script>
+    @livewire('admin.media.media-library-modal')
     @stack('scripts')
 </body>
 </html>

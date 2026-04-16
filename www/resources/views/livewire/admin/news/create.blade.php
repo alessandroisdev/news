@@ -54,11 +54,33 @@
                                     ['link', 'image', 'video'],
                                     ['clean']
                                 ]
-                            }
                         });
                         quill.root.innerHTML = content;
                         quill.on('text-change', function () {
                             content = quill.root.innerHTML;
+                        });
+                        
+                        let toolbar = quill.getModule('toolbar');
+                        toolbar.addHandler('image', function() {
+                            Livewire.dispatch('open-media-library', { context: 'quill_image' });
+                        });
+                        toolbar.addHandler('video', function() {
+                            Livewire.dispatch('open-media-library', { context: 'quill_video' });
+                        });
+                        
+                        // Escutando resposta da biblioteca global
+                        window.addEventListener('media-selected', (event) => {
+                            let data = event.detail[0] || event.detail;
+                            if (data.context === 'quill_image' || data.context === 'quill_video') {
+                                let range = quill.getSelection(true) || {index: quill.getLength()};
+                                if (data.type === 'image') {
+                                    quill.insertEmbed(range.index, 'image', data.url);
+                                } else if (data.type === 'file') { // fallback video or file
+                                    quill.insertText(range.index, data.name, 'link', data.url);
+                                }
+                                quill.setSelection(range.index + 1);
+                                content = quill.root.innerHTML;
+                            }
                         });
                     ">
                         <div x-ref="quillEditor" style="min-height: 400px; font-family: 'Inter', sans-serif; font-size: 1.05rem;"></div>
