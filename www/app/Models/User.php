@@ -12,13 +12,14 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use App\Traits\Auditable;
+use NotificationChannels\WebPush\HasPushSubscriptions;
 
-#[Fillable(['name', 'email', 'password', 'role', 'slug', 'bio', 'avatar', 'theme_color', 'social_links', 'asaas_customer_id', 'subscription_status', 'subscription_expires_at', 'two_factor_enabled', 'two_factor_secret', 'two_factor_recovery_codes'])]
-#[Hidden(['password', 'remember_token', 'two_factor_secret', 'two_factor_recovery_codes'])]
+#[Fillable(['name', 'email', 'password', 'role', 'slug', 'bio', 'avatar', 'theme_color', 'social_links', 'asaas_customer_id', 'subscription_status', 'subscription_expires_at', 'two_factor_enabled', 'two_factor_secret', 'two_factor_recovery_codes', 'oauth_provider', 'oauth_id'])]
+#[Hidden(['password', 'remember_token', 'two_factor_secret', 'two_factor_recovery_codes', 'oauth_provider', 'oauth_id'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes, Auditable;
+    use HasFactory, Notifiable, SoftDeletes, Auditable, HasPushSubscriptions;
 
     protected static function boot()
     {

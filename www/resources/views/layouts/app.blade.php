@@ -34,6 +34,41 @@
         {{ $slot ?? '' }}
     </main>
 
+    <script>
+        window.initWebPush = async function() {
+            if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+            try {
+                const reg = await navigator.serviceWorker.ready;
+                const permission = await Notification.requestPermission();
+                if (permission !== 'granted') return;
+
+                const vapidPublicKey = '{{ config("webpush.vapid.public_key") }}';
+                
+                // Conversão de VAPID (Base64 URL) para Uint8Array Exigido pelo Chrome
+                const padding = '='.repeat((4 - vapidPublicKey.length % 4) % 4);
+                const base64 = (vapidPublicKey + padding).replace(/\-/g, '+').replace(/_/g, '/');
+                const rawData = window.atob(base64);
+                const outputArray = new Uint8Array(rawData.length);
+                for (let i = 0; i < rawData.length; ++i) {
+                    outputArray[i] = rawData.charCodeAt(i);
+                }
+
+                const sub = await reg.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: outputArray
+                });
+                
+                fetch('{{ route("webpush.subscribe") }}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    body: JSON.stringify(sub)
+                }).then(() => console.log('✅ Push Web Shield Ativado!'));
+            } catch (err) {
+                console.error('Falha no WebPush:', err);
+            }
+        };
+    </script>
+
     @include('layouts.partials.footer')
 
     @livewireScripts

@@ -36,6 +36,17 @@
                                 <span wire:loading><span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Autenticando...</span>
                             </button>
                         </div>
+
+                        <div class="position-relative my-4">
+                            <hr class="text-black-50">
+                            <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small fw-semibold">OU</span>
+                        </div>
+
+                        <div class="d-grid">
+                            <a href="{{ route('social.redirect', 'google') }}" class="btn btn-outline-dark btn-lg fw-bold py-3 text-dark rounded-3 d-flex align-items-center justify-content-center hover-shadow" style="transition: all 0.2s;">
+                                <i class="bi bi-google text-danger me-2 fs-5"></i> Continuar com o Google
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>

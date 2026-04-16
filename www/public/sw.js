@@ -73,3 +73,50 @@ self.addEventListener('fetch', (event) => {
             })
     );
 });
+
+// Evento: Escuta Silenciosa de Breaking News (Web Push Nativo)
+self.addEventListener('push', function(e) {
+    if (!(self.Notification && self.Notification.permission === 'granted')) {
+        return;
+    }
+
+    if (e.data) {
+        let payload = e.data.json();
+        
+        const options = {
+            body: payload.body || 'As manchetes esquentaram! Você tem uma novidade.',
+            icon: '/images/pwa/icon-192x192.png',
+            vibrate: [200, 100, 200, 100, 200, 100, 200],
+            data: {
+                dateOfArrival: Date.now(),
+                url: payload.url || '/'
+            },
+            actions: [
+                {action: 'explore', title: 'Ler Matéria Completa'}
+            ]
+        };
+
+        // Custom image do PWA Push se existir
+        if (payload.image) {
+            options.image = payload.image;
+        }
+
+        e.waitUntil(
+            self.registration.showNotification(payload.title || 'Breaking News', options)
+        );
+    }
+});
+
+// Evento: O clique furtivo na placa do Web Push
+self.addEventListener('notificationclick', function(e) {
+    let notification = e.notification;
+    let url = notification.data.url;
+    let action = e.action;
+
+    if (action === 'close') {
+        notification.close();
+    } else {
+        clients.openWindow(url);
+        notification.close();
+    }
+});

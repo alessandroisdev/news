@@ -100,7 +100,12 @@
                     
                     <div class="form-check form-switch fs-4 me-4 my-2 my-md-0 d-flex align-items-center">
                         <input class="form-check-input" type="checkbox" role="switch" id="is_premium" wire:model="is_premium">
-                        <label class="form-check-label ms-2 fs-6 fw-bold text-dark" for="is_premium"><i class="bi bi-star-fill text-warning"></i> Restrito para Assinantes</label>
+                        <label class="form-check-label ms-2 fs-6 fw-bold text-dark" for="is_premium"><i class="bi bi-star-fill text-warning"></i> Assinantes</label>
+                    </div>
+
+                    <div class="form-check form-switch fs-4 me-4 my-2 my-md-0 d-flex align-items-center">
+                        <input class="form-check-input" type="checkbox" role="switch" id="send_web_push" wire:model="send_web_push">
+                        <label class="form-check-label ms-2 fs-6 fw-bold text-danger text-uppercase tracking-wider" for="send_web_push" style="font-size: 0.8rem;"><i class="bi bi-broadcast"></i> Web Push Alerta</label>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-lg fw-bold px-5 border-0 shadow-sm" style="transition: all 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">

@@ -46,7 +46,15 @@ Route::get('/videos/{slug}', [\App\Http\Controllers\MediaController::class, 'vid
 // Áreas de Autenticação utilizando o Componente Base do Livewire e Sessão
 Route::get('/login', \App\Livewire\Auth\Login::class)->name('login');
 
+// Rotas de Oauth SS0
+Route::get('/auth/{provider}/redirect', [\App\Http\Controllers\Auth\SocialAuthController::class, 'redirect'])->name('social.redirect')->middleware('guest');
+Route::get('/auth/{provider}/callback', [\App\Http\Controllers\Auth\SocialAuthController::class, 'callback'])->name('social.callback')->middleware('guest');
+
 Route::middleware('auth')->group(function () {
+    // Endpoints PWA & Web Push Notifications
+    Route::post('/webpush/subscribe', [\App\Http\Controllers\WebPushController::class, 'subscribe'])->name('webpush.subscribe');
+    Route::post('/webpush/unsubscribe', [\App\Http\Controllers\WebPushController::class, 'unsubscribe'])->name('webpush.unsubscribe');
+
     // Endpoint Streaming (SSE - Server Sent Events) para Updates In-Place de Tabela
     Route::get('/stream/news', function () {
         return response()->stream(function () {

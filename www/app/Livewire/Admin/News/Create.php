@@ -20,6 +20,7 @@ class Create extends Component
     public $category_id;
     public $cover_image;
     public $is_premium = false;
+    public $send_web_push = false;
 
     protected $rules = [
         'title' => 'required|min:5|max:255',
@@ -78,6 +79,12 @@ class Create extends Component
         }
 
         $news->save();
+
+        // Queues Notification via WebPush se marcado!
+        if ($this->send_web_push && $state === NewsStateEnum::PUBLISHED->value) {
+            $subscribers = \App\Models\User::whereHas('pushSubscriptions')->get();
+            \Illuminate\Support\Facades\Notification::send($subscribers, new \App\Notifications\BreakingNewsNotification($news));
+        }
 
         session()->flash('message', 'Matéria tramitada na máquina de status (State Machine) e salva com sucesso!');
         return redirect()->route('admin.news.index');

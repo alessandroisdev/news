@@ -17,6 +17,9 @@
         <livewire:frontend.navbar-search />
         <div class="d-flex align-items-center ms-lg-2 mt-3 mt-lg-0">
           @auth
+            <button onclick="initWebPush()" class="btn btn-outline-warning border-0 p-2 position-relative bg-transparent me-2" title="Ativar Alertas Push" data-bs-toggle="tooltip">
+                <i class="bi bi-bell-fill fs-5 shadow-sm text-warning"></i>
+            </button>
             <div class="dropdown">
               <a href="#" class="btn btn-outline-light btn-sm fw-bold dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-person-circle me-2 fs-6"></i> {{ explode(' ', auth()->user()->name)[0] }}
