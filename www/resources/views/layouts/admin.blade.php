@@ -137,15 +137,15 @@
                     </a>
                 </li>
                 @endif
-                <li class="nav-item mt-1">
-                    <a href="{{ route('admin.help.index') }}" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->routeIs('admin.help.index') ? 'active bg-warning fw-bold text-dark shadow-sm' : 'text-dark' }}" style="background-color: #f1f5f9;">
-                        <i class="bi bi-lightbulb-fill me-2 text-warning"></i> Wiki / Ajuda
-                    </a>
-                </li>
             </ul>
             
-            <div class="p-4 mt-auto border-top text-center" style="background-color: #fafbfc;">
-                <span class="text-muted small fw-semibold">Workspace Engine v1.0<br>Powered by Sanctum</span>
+            <div class="mt-auto">
+                <a href="{{ route('admin.help.index') }}" class="d-block px-4 py-3 border-top text-decoration-none {{ request()->routeIs('admin.help.index') ? 'bg-warning text-dark fw-bold' : 'text-dark' }}" style="background-color: #f1f5f9;">
+                    <i class="bi bi-info-circle-fill me-2 text-primary"></i> <span class="fw-bold">Manuais e Wiki</span>
+                </a>
+                <div class="p-4 text-center border-top shadow-sm" style="background-color: #fafbfc;">
+                    <span class="text-muted small fw-semibold">Workspace Engine v1.0<br>Powered by Sanctum</span>
+                </div>
             </div>
         </nav>
 
