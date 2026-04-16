@@ -104,6 +104,20 @@
                                 <h6 class="small fw-bolder mb-0 text-dark">Escaneie o QR Code</h6>
                                 <p class="small text-muted mb-0" style="font-size: 0.70rem;">Para gerar PIN Offline</p>
                             </div>
+
+                            @if(count($recoveryCodes) > 0)
+                                <div class="mt-3 border-top pt-3 text-start">
+                                    <span class="d-block small fw-bold text-dark mb-1">Códigos de Backup</span>
+                                    <p class="text-muted mb-2" style="font-size: 0.70rem;">Guarde estes 8 códigos de forma segura.</p>
+                                    <div class="d-flex gap-2 mb-2">
+                                        <button wire:click="emailRecoveryCodes" class="btn btn-sm btn-outline-secondary w-50 fw-bold" style="font-size: 0.70rem;">E-mail</button>
+                                        <button wire:click="downloadRecoveryCodes" class="btn btn-sm btn-outline-danger w-50 fw-bold" style="font-size: 0.70rem;">PDF</button>
+                                    </div>
+                                    @if (session()->has('success_2fa_mail'))
+                                        <div class="text-success small fw-bold text-center mt-1" style="font-size: 0.75rem;"><i class="bi bi-check-circle-fill"></i> Enviado!</div>
+                                    @endif
+                                </div>
+                            @endif
                         @endif
                     </div>
                 </div>

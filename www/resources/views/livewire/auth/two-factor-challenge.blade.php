@@ -6,7 +6,7 @@
                     <h3 class="fw-bolder mb-2 text-dark" style="font-family: 'Outfit', sans-serif;">
                         <i class="bi bi-shield-lock-fill text-danger me-2"></i>Google Authenticator
                     </h3>
-                    <p class="text-muted">Acesso restrito detectado. Digite o código de 6 dígitos gerado pelo seu Aplicativo de Autenticação.</p>
+                    <p class="text-muted">Acesso restrito detectado. Digite o PIN Base32 do seu app Autenticador ou utilize um Código de Backup (Fallback).</p>
                 </div>
 
                 <form wire:submit.prevent="verify">
