@@ -56,4 +56,16 @@ class User extends Authenticatable
     {
         return $this->morphMany(AudienceMetric::class, 'trackable')->where('type', 'view');
     }
+
+    /**
+     * Check se o usuário tem poderes amplos de vip (Assinante Ativo ou Staff)
+     */
+    public function isVIP(): bool
+    {
+        return in_array($this->role, [
+            \App\Enums\UserRoleEnum::ADMIN->value,
+            \App\Enums\UserRoleEnum::MANAGER->value,
+            \App\Enums\UserRoleEnum::COLUMNIST->value,
+        ]) || $this->subscription_status === 'active';
+    }
 }

@@ -19,6 +19,7 @@ class Create extends Component
     public $content;
     public $category_id;
     public $cover_image;
+    public $is_premium = false;
 
     protected $rules = [
         'title' => 'required|min:5|max:255',
@@ -54,6 +55,7 @@ class Create extends Component
         $news->category_id = $this->category_id;
         $news->author_id = $user->id;
         $news->state = $state;
+        $news->is_premium = $this->is_premium;
         
         if ($state === NewsStateEnum::PUBLISHED->value) {
             $news->published_at = now();

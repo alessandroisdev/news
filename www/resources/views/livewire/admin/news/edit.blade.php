@@ -115,6 +115,11 @@
                 @error('content') <div class="invalid-feedback d-block fw-bold p-2 mb-4">{{ $message }}</div> @enderror
 
                 <div class="d-flex flex-column flex-md-row justify-content-end align-items-md-center bg-light p-4 rounded-3 border">
+                    <div class="form-check form-switch fs-4 me-4 my-2 my-md-0 d-flex align-items-center">
+                        <input class="form-check-input" type="checkbox" role="switch" id="is_premium_edit" wire:model="is_premium">
+                        <label class="form-check-label ms-2 fs-6 fw-bold text-dark" for="is_premium_edit"><i class="bi bi-star-fill text-warning"></i> Restrito para Assinantes</label>
+                    </div>
+
                     <button type="submit" class="btn btn-success btn-lg fw-bold px-5 border-0 shadow-sm" style="transition: all 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
                         <span wire:loading.remove wire:target="save"><i class="bi bi-check2-circle me-1"></i> Atualizar Artigo</span>
                         <span wire:loading wire:target="save"><span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Substituindo blocos...</span>

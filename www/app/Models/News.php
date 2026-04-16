@@ -23,6 +23,7 @@ class News extends Model
         'published_at',
         'category_id',
         'author_id',
+        'is_premium',
     ];
 
     protected function casts(): array
@@ -30,6 +31,7 @@ class News extends Model
         return [
             'state' => NewsStateEnum::class,
             'published_at' => 'datetime',
+            'is_premium' => 'boolean',
         ];
     }
 
@@ -93,6 +95,7 @@ class News extends Model
             'content' => strip_tags($this->content),
             'state' => $this->state instanceof \BackedEnum ? $this->state->value : $this->state,
             'category_name' => $this->category ? $this->category->name : '',
+            'is_premium' => $this->is_premium,
         ];
     }
 }

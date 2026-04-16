@@ -33,6 +33,9 @@
                     <i class="bi bi-calendar3 me-1"></i> Publicado em {{ $news->published_at ? $news->published_at->format('d/m/Y \à\s H:i') : 'N/A' }}
                 </div>
             </div>
+            
+            <!-- Motor de Acessibilidade (Locução Autônoma por Voz) -->
+            <livewire:frontend.voice-player :content="$news->content" />
 
             @if($news->cover_image)
             <div class="mb-5 rounded-4 overflow-hidden shadow-sm position-relative placeholder-glow">
@@ -42,8 +45,58 @@
             </div>
             @endif
 
-            <article class="news-content fs-5 text-dark" style="line-height: 1.8; font-family: 'Inter', sans-serif;">
-                {!! $news->content !!}
+            @php
+                $isVIP = auth()->check() && auth()->user()->isVIP();
+                $isBlocked = $news->is_premium && !$isVIP;
+                
+                $renderContent = $news->content;
+                
+                if ($isBlocked) {
+                    $paragraphs = explode('</p>', $news->content);
+                    $preview = '';
+                    $remaining = '';
+                    $limit = 2; // Extrai no maximo 2 paragrafos (O terceiro fica desfocado)
+                    
+                    for ($i = 0; $i < min($limit, count($paragraphs)); $i++) {
+                        $preview .= $paragraphs[$i] . '</p>';
+                    }
+                    
+                    if(isset($paragraphs[$limit])) {
+                        $remaining = $paragraphs[$limit] . '</p>';
+                    }
+                    $renderContent = $preview;
+                }
+            @endphp
+
+            @if($news->is_premium)
+                <div class="badge bg-warning text-dark px-3 py-2 fw-bold rounded-pill mb-4 border border-warning shadow-sm" style="font-size: 0.8rem;">
+                    <i class="bi bi-star-fill me-1"></i> CONTEÚDO PREMIUM
+                </div>
+            @endif
+
+            <article class="news-content fs-5 text-dark position-relative" style="line-height: 1.8; font-family: 'Inter', sans-serif;">
+                {!! $renderContent !!}
+                
+                @if($isBlocked)
+                    <div style="filter: blur(6px); opacity: 0.4; user-select: none; pointer-events: none;">
+                        {!! $remaining !!}
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                    
+                    <div class="paywall-overlay position-absolute start-0 w-100 d-flex flex-column justify-content-center align-items-center rounded-4 shadow" style="bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 20%, rgba(255,255,255,1) 100%); height: 80%; padding: 40px 20px 20px 20px; z-index: 10;">
+                        <div class="bg-white p-5 rounded-4 shadow text-center border border-primary border-3 w-100" style="max-width: 550px; transform: translateY(40px);">
+                            <i class="bi bi-gem text-primary mb-3 d-block" style="font-size: 3rem;"></i>
+                            <h3 class="fw-bolder mb-3 text-dark" style="font-family: 'Outfit', sans-serif;">Continue lendo esta matéria com o Acesso Premium</h3>
+                            <p class="text-muted mb-4 fs-6">O jornalismo investigativo e independente precisa de você. Assine para desbloquear esta reportagem e ganhe acesso total sem anúncios.</p>
+                            
+                            <div class="d-flex flex-column gap-3">
+                                <a href="{{ route('login') }}" class="btn btn-primary btn-lg fw-bold px-5 shadow-sm rounded-pill py-3">Assine já por apenas R$ 19,90/mês</a>
+                                <div class="text-muted small">Já é assinante? <a href="{{ route('login') }}" class="fw-bold text-decoration-none">Faça Login</a></div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </article>
             
             <!-- Propaganda no corpo da noticia (Adicionada ergonomicamente no final pro leitor continuar ali) -->

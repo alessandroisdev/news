@@ -21,6 +21,7 @@ class Edit extends Component
     public $category_id;
     public $state;
     public $cover_image;
+    public $is_premium;
 
     protected $rules = [
         'title' => 'required|min:5|max:255',
@@ -37,6 +38,7 @@ class Edit extends Component
         $this->content = $news->content;
         $this->category_id = $news->category_id;
         $this->state = $news->state instanceof \BackedEnum ? $news->state->value : $news->state;
+        $this->is_premium = $news->is_premium;
     }
 
     public function save()
@@ -54,6 +56,7 @@ class Edit extends Component
         $this->newsModel->slug = Str::slug($this->title);
         $this->newsModel->content = $this->content;
         $this->newsModel->category_id = $this->category_id;
+        $this->newsModel->is_premium = $this->is_premium;
 
         if ($this->cover_image) {
             $filename = $this->cover_image->store('news', 'public');

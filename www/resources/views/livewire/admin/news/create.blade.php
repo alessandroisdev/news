@@ -94,9 +94,15 @@
                         <div class="fs-2 text-primary me-3 lh-1"><i class="bi bi-shield-lock-fill"></i></div>
                         <div>
                             <strong>Modo Automático Role/Abilities:</strong><br>
-                            A máquina assíncrona destina o artigo para Rascunho, Pendente de Revisão (se você for apenas Autor) ou publica instantaneamente em milissegundos.
+                            A máquina assíncrona destina o artigo para Rascunho, Pendente de Revisão ou Publicado.
                         </div>
                     </div>
+                    
+                    <div class="form-check form-switch fs-4 me-4 my-2 my-md-0 d-flex align-items-center">
+                        <input class="form-check-input" type="checkbox" role="switch" id="is_premium" wire:model="is_premium">
+                        <label class="form-check-label ms-2 fs-6 fw-bold text-dark" for="is_premium"><i class="bi bi-star-fill text-warning"></i> Restrito para Assinantes</label>
+                    </div>
+
                     <button type="submit" class="btn btn-primary btn-lg fw-bold px-5 border-0 shadow-sm" style="transition: all 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
                         <span wire:loading.remove wire:target="save">Tramitar Operação</span>
                         <span wire:loading wire:target="save"><span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Processando...</span>
