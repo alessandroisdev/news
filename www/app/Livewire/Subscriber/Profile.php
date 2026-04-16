@@ -5,11 +5,17 @@ namespace App\Livewire\Subscriber;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Profile extends Component
 {
+    use WithFileUploads;
+
     public $name;
     public $email;
+    public $avatar;
+    public $new_avatar;
+
     public $current_password;
     public $new_password;
     public $new_password_confirmation;
@@ -19,6 +25,7 @@ class Profile extends Component
         $user = Auth::user();
         $this->name = $user->name;
         $this->email = $user->email;
+        $this->avatar = $user->avatar;
     }
 
     public function updateProfile()
@@ -26,11 +33,20 @@ class Profile extends Component
         $this->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . Auth::id(),
+            'new_avatar' => 'nullable|image|max:2048', // max 2MB
         ]);
 
         $user = Auth::user();
         $user->name = $this->name;
         $user->email = $this->email;
+
+        if ($this->new_avatar) {
+            $path = $this->new_avatar->store('avatars', 'public');
+            $user->avatar = $path;
+            $this->avatar = $path;
+            $this->new_avatar = null;
+        }
+
         $user->save();
 
         session()->flash('profile-updated', 'Seus dados de identidade foram atualizados.');

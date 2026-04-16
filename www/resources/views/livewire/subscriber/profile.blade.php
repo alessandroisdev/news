@@ -2,7 +2,7 @@
     <div class="row">
         @include('layouts.partials.subscriber-sidebar')
 
-        <div class="col-lg-9 ms-lg-1">
+        <div class="col-lg-8 offset-lg-1">
             
             <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
                 <i class="bi bi-person-badge fs-2 text-primary me-3"></i>
@@ -25,6 +25,26 @@
 
                     <form wire:submit.prevent="updateProfile">
                         <div class="row g-3">
+                            <div class="col-md-12 text-center mb-4">
+                                <div class="position-relative d-inline-block">
+                                    @if($new_avatar)
+                                        <img src="{{ $new_avatar->temporaryUrl() }}" class="rounded-circle shadow-sm object-fit-cover border border-3 border-white" style="width: 120px; height: 120px;">
+                                    @elseif($avatar)
+                                        <img src="/storage/{{ $avatar }}" class="rounded-circle shadow-sm object-fit-cover border border-3 border-white" style="width: 120px; height: 120px;">
+                                    @else
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm fs-1 fw-bold border border-3 border-white" style="width: 120px; height: 120px;">
+                                            {{ substr(auth()->user()->name, 0, 1) }}
+                                        </div>
+                                    @endif
+                                    
+                                    <label for="avatarUpload" class="position-absolute bottom-0 end-0 bg-dark text-white rounded-circle p-2 shadow" style="cursor: pointer; transform: translate(15%, 15%);">
+                                        <i class="bi bi-camera-fill"></i>
+                                    </label>
+                                    <input id="avatarUpload" type="file" wire:model="new_avatar" class="d-none" accept="image/*">
+                                </div>
+                                @error('new_avatar') <span class="d-block text-danger mt-2 small">{{ $message }}</span> @enderror
+                            </div>
+
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-secondary text-uppercase small">Nome Completo</label>
                                 <input wire:model="name" type="text" class="form-control bg-light border-0 shadow-none px-3 py-2" required>
