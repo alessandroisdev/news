@@ -18,6 +18,16 @@ Route::get('/feed', function () {
         ->header('Content-Type', 'text/xml');
 })->name('rss.feed');
 
+// Sitemap XML Automático para SEO
+Route::get('/sitemap.xml', function () {
+    $news = \App\Models\News::where('state', \App\Enums\NewsStateEnum::PUBLISHED->value)->latest('published_at')->get();
+    $categories = \App\Models\Category::all();
+    $columnists = \App\Models\User::where('role', \App\Enums\UserRoleEnum::COLUMNIST->value)->get();
+    
+    return response()->view('sitemap', compact('news', 'categories', 'columnists'))
+        ->header('Content-Type', 'text/xml');
+})->name('sitemap');
+
 // Encurtador de Link (Base62)
 Route::get('/link/{hash}', [\App\Http\Controllers\LinkShortenerController::class, 'redirect'])->name('link.redirect');
 
@@ -119,5 +129,5 @@ Route::post('/logout', function (\Illuminate\Http\Request $request) {
 
 // Roteador Global Dinâmico da Raiz (Fallback Categoria>Coluna>Notícia)
 Route::get('/{slug}', [\App\Http\Controllers\FallbackRouteController::class, 'resolve'])
-    ->where('slug', '^(?!images|videos|link|api|login|admin|assinante|logout|ultimas|colunistas|feed).*$')
+    ->where('slug', '^(?!images|videos|link|api|login|admin|assinante|logout|ultimas|colunistas|feed|sitemap\.xml).*$')
     ->name('dynamic.slug');

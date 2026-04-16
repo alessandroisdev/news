@@ -18,6 +18,7 @@ O projeto do **Portal Definitivo** foi reestruturado para ser um Hub de Informa�
 ## 🔌 API & Mídia Delivery
 
 - **Feed RSS Completo XML 2.0:** Distribuído em `/feed`. Aderente a agregadores da UOL, Microsoft Start e Google News com Namespace Automático Atom & Media. Compatibilidade vital com `<media:content>`.
+- **Sitemap XML Dinâmico (SEO):** Distribuído em `/sitemap.xml`. Motor orgânico baseado em Árvore `<urlset>` autogerada conectando taxonomia completa, extensão Image, prioridades e ChangeFreq customizadas.
 - **Media Library Interna:** Galeria de Ativos com upload massivo que reaproveita capas de matérias passadas na mesma interface interativa sem criar duplicações sujas de storage.
 
 ## 🛠️ Stack Tecnológico
