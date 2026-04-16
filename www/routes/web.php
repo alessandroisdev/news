@@ -107,6 +107,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/categories', \App\Livewire\Admin\Category\Index::class)->name('admin.categories.index');
     Route::get('/admin/banners', \App\Livewire\Admin\Banners\Index::class)->name('admin.banners.index');
     Route::get('/admin/analytics', \App\Livewire\Admin\Analytics\Dashboard::class)->name('admin.analytics.dashboard');
+    Route::get('/admin/analytics/content', \App\Livewire\Admin\Analytics\ContentMetrics::class)->name('admin.analytics.content');
     Route::get('/admin/users', \App\Livewire\Admin\Users\Index::class)->name('admin.users.index');
     Route::get('/admin/users/trash', \App\Livewire\Admin\Users\Trash::class)->name('admin.users.trash');
     Route::get('/admin/audits', \App\Livewire\Admin\Audits\Index::class)->name('admin.audits.index');

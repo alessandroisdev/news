@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\NewsStateEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use App\Traits\Auditable;
@@ -71,6 +72,14 @@ class News extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    /**
+     * Motor de Auditoria: Relacionamento reverso polimórfico
+     */
+    public function audienceViews(): MorphMany
+    {
+        return $this->morphMany(AudienceMetric::class, 'trackable')->where('type', 'view');
     }
 
     /**

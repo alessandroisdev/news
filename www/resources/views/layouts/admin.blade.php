@@ -81,8 +81,13 @@
                     </a>
                 </li>
                 <li class="nav-item border-top mt-3 pt-3">
-                    <a href="/admin/analytics" class="nav-link text-success px-3 py-2 border-0 {{ request()->is('admin/analytics') ? 'active bg-success bg-opacity-10 fw-bold rounded-3' : '' }}">
+                    <a href="/admin/analytics" class="nav-link text-success px-3 py-2 border-0 {{ request()->routeIs('admin.analytics.dashboard') ? 'active bg-success bg-opacity-10 fw-bold rounded-3' : '' }}">
                         <i class="bi bi-pie-chart-fill me-2"></i> Engine Analytics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.analytics.content') }}" class="nav-link text-primary px-3 py-2 border-0 {{ request()->routeIs('admin.analytics.content') ? 'active bg-primary bg-opacity-10 fw-bold rounded-3' : '' }}">
+                        <i class="bi bi-map me-2"></i> Auditor de Conteúdo
                     </a>
                 </li>
                 <li class="nav-item">

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 use App\Traits\Auditable;
 
@@ -41,5 +42,13 @@ class Category extends Model
     public function news(): HasMany
     {
         return $this->hasMany(News::class);
+    }
+
+    /**
+     * Motor de Auditoria: Tráfego local recebido na aba de categorias
+     */
+    public function audienceViews(): MorphMany
+    {
+        return $this->morphMany(AudienceMetric::class, 'trackable')->where('type', 'view');
     }
 }

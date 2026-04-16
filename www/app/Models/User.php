@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use App\Traits\Auditable;
 
 #[Fillable(['name', 'email', 'password', 'role', 'slug', 'bio', 'theme_color', 'social_links', 'asaas_customer_id', 'subscription_status', 'subscription_expires_at'])]
@@ -46,5 +47,13 @@ class User extends Authenticatable
     public function news()
     {
         return $this->hasMany(\App\Models\News::class, 'author_id');
+    }
+
+    /**
+     * Motor de Auditoria: Tráfego recebido nas colunas do Autor
+     */
+    public function audienceViews(): MorphMany
+    {
+        return $this->morphMany(AudienceMetric::class, 'trackable')->where('type', 'view');
     }
 }

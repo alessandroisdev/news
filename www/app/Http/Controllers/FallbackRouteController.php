@@ -21,10 +21,19 @@ class FallbackRouteController extends Controller
             // Track de Perfil 
             $profile = request()->attributes->get('visitor_profile');
             if ($profile) {
+                // Tracking de Preferencia Semântica (Muda o Peso)
                 $scores = $profile->preferences_score ?? [];
                 $scores[$category->id] = ($scores[$category->id] ?? 0) + 2; // +2 por explorar a trilha
                 $profile->preferences_score = $scores;
                 $profile->save();
+                
+                // Gravar PageView Real
+                \App\Models\AudienceMetric::create([
+                    'visitor_profile_id' => $profile->id,
+                    'trackable_type' => Category::class,
+                    'trackable_id' => $category->id,
+                    'type' => 'view'
+                ]);
             }
             return view('category.show', compact('category'));
         }
@@ -35,6 +44,16 @@ class FallbackRouteController extends Controller
             ->first();
         
         if ($columnist) {
+            // Track de Perfil (Colunista)
+            $profile = request()->attributes->get('visitor_profile');
+            if ($profile) {
+                \App\Models\AudienceMetric::create([
+                    'visitor_profile_id' => $profile->id,
+                    'trackable_type' => User::class,
+                    'trackable_id' => $columnist->id,
+                    'type' => 'view'
+                ]);
+            }
             return view('columnist.show', compact('columnist'));
         }
 
@@ -51,6 +70,14 @@ class FallbackRouteController extends Controller
                 $scores[$news->category_id] = ($scores[$news->category_id] ?? 0) + 1; // +1 por ler uma matéria
                 $profile->preferences_score = $scores;
                 $profile->save();
+                
+                // Gravar PageView Real para a Notícia
+                \App\Models\AudienceMetric::create([
+                    'visitor_profile_id' => $profile->id,
+                    'trackable_type' => News::class,
+                    'trackable_id' => $news->id,
+                    'type' => 'view'
+                ]);
             }
 
             $relatedNews = News::where('category_id', $news->category_id)
