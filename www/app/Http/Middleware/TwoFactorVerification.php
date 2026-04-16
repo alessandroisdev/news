@@ -17,8 +17,7 @@ class TwoFactorVerification
             return $next($request);
         }
 
-        // Se o usuário faz parte do Staff blindado e a sessão não foi aprovada pelo PIN...
-        if ($user && in_array($user->role, [
+        if ($user && $user->two_factor_enabled && in_array($user->role, [
             \App\Enums\UserRoleEnum::ADMIN->value, 
             \App\Enums\UserRoleEnum::MANAGER->value, 
             \App\Enums\UserRoleEnum::COLUMNIST->value

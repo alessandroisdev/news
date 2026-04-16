@@ -32,12 +32,17 @@ class Login extends Component
                 return redirect()->intended('/assinante');
             }
             
-            // Gestores, Colunistas e Admins -> Dispara Barreira 2FA Zero Trust!
-            $user->generateTwoFactorCode();
-            \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\TwoFactorPinMail($user));
-            session()->put('2fa_passed', false);
+            if ($user->two_factor_enabled) {
+                // Gestores, Colunistas e Admins -> Dispara Barreira 2FA Zero Trust se Habilitados!
+                $user->generateTwoFactorCode();
+                \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\TwoFactorPinMail($user));
+                session()->put('2fa_passed', false);
+                
+                return redirect()->route('admin.2fa.challenge');
+            }
             
-            return redirect()->route('admin.2fa.challenge');
+            // Passa direto se 2FA desativado na sua conta
+            return redirect()->intended('/admin/dashboard');
         }
 
         $this->addError('email', 'As credenciais fornecidas não conferem ou você não tem acesso.');

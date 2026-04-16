@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use App\Traits\Auditable;
 
-#[Fillable(['name', 'email', 'password', 'role', 'slug', 'bio', 'avatar', 'theme_color', 'social_links', 'asaas_customer_id', 'subscription_status', 'subscription_expires_at', 'two_factor_code', 'two_factor_expires_at'])]
+#[Fillable(['name', 'email', 'password', 'role', 'slug', 'bio', 'avatar', 'theme_color', 'social_links', 'asaas_customer_id', 'subscription_status', 'subscription_expires_at', 'two_factor_code', 'two_factor_expires_at', 'two_factor_enabled'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -41,6 +41,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'two_factor_enabled' => 'boolean',
         ];
     }
 
