@@ -72,7 +72,9 @@ class Dashboard extends Component
         if (empty($this->recoveryCodes)) return;
         
         $pdf = app('dompdf.wrapper')->loadView('pdf.recovery-codes', ['codes' => $this->recoveryCodes]);
-        return response()->streamDownload(fn () => print($pdf->output()), 'recovery-codes.pdf');
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'recovery-codes.pdf');
     }
 
     public function emailRecoveryCodes()
