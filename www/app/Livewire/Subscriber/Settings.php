@@ -42,7 +42,8 @@ class Settings extends Component
     {
         $user = Auth::user();
         
-        if ($value && empty($user->two_factor_secret)) {
+        if ($value) {
+            // Garante inicializacao completa inclusive para legados
             $user->enableTwoFactorSecret();
         }
 

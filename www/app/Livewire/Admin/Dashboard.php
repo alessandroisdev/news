@@ -45,7 +45,7 @@ class Dashboard extends Component
     {
         $user = Auth::user();
 
-        if ($value && empty($user->two_factor_secret)) {
+        if ($value) {
             $user->enableTwoFactorSecret();
         }
 

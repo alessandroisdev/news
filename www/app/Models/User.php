@@ -75,19 +75,24 @@ class User extends Authenticatable
      */
     public function enableTwoFactorSecret()
     {
+        $needsSave = false;
+
         if (empty($this->two_factor_secret)) {
             $google2fa = new \PragmaRX\Google2FA\Google2FA();
             $this->two_factor_secret = $google2fa->generateSecretKey();
-            
-            // Gerar 8 códigos aleatórios de 10 caracteres (ex: A4B2Z9K1M3)
+            $needsSave = true;
+        }
+
+        if (empty($this->two_factor_recovery_codes)) {
             $recoveryCodes = [];
             for ($i = 0; $i < 8; $i++) {
                 $recoveryCodes[] = strtoupper(substr(bin2hex(random_bytes(5)), 0, 10));
             }
-            
-            // Grava em Hash o JSON dos códigos 
             $this->two_factor_recovery_codes = encrypt(json_encode($recoveryCodes));
-            
+            $needsSave = true;
+        }
+
+        if ($needsSave) {
             $this->save();
         }
     }
