@@ -79,9 +79,32 @@
                     </div>
                 </div>
                 <div class="col-lg-4 text-center mt-4 mt-lg-0">
-                    <div class="p-3 bg-light rounded-4 border">
+                    <div class="p-3 bg-light rounded-4 border mb-3">
                         <span class="d-block small text-muted text-uppercase fw-bold mb-1">Seu Nível de Acesso Nativamente</span>
                         <h4 class="fw-bolder text-primary mb-0">{{ $userRole ?? 'ADMINISTRADOR' }}</h4>
+                    </div>
+
+                    <!-- Botão Rapido Zero-Trust -->
+                    <div class="p-3 bg-white rounded-4 border shadow-sm text-start">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="d-block small text-dark fw-bold"><i class="bi bi-shield-lock-fill text-danger me-1"></i> Blindagem 2FA</span>
+                                <span class="d-block text-muted" style="font-size: 0.70rem;">Trancar login com PIN</span>
+                            </div>
+                            <div class="form-check form-switch fs-4 m-0">
+                                <input class="form-check-input shadow-none cursor-pointer" type="checkbox" role="switch" wire:model.live="twoFactorEnabled">
+                            </div>
+                        </div>
+
+                        @if($twoFactorEnabled && $qrCodeSvg)
+                            <div class="mt-4 border-top pt-3 text-center">
+                                <div class="bg-light d-inline-block rounded-3 p-2 shadow-sm mb-2">
+                                    {!! $qrCodeSvg !!}
+                                </div>
+                                <h6 class="small fw-bolder mb-0 text-dark">Escaneie o QR Code</h6>
+                                <p class="small text-muted mb-0" style="font-size: 0.70rem;">Para gerar PIN Offline</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

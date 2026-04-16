@@ -2,7 +2,7 @@
     <div class="row">
         @include('layouts.partials.subscriber-sidebar')
 
-        <div class="col-lg-9 ms-lg-1">
+        <div class="col-lg-9">
             
             <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
                 <i class="bi bi-credit-card-2-front fs-2 text-primary me-3"></i>

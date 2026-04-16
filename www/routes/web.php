@@ -125,8 +125,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/comments/moderation', \App\Livewire\Admin\Comments\Moderation::class)->name('admin.comments.moderation');
 
     Route::get('/admin/users', \App\Livewire\Admin\Users\Index::class)->name('admin.users.index');
-        Route::get('/admin/users/trash', \App\Livewire\Admin\Users\Trash::class)->name('admin.users.trash');
-        Route::get('/admin/audits', \App\Livewire\Admin\Audits\Index::class)->name('admin.audits.index');
+    Route::get('/admin/users/trash', \App\Livewire\Admin\Users\Trash::class)->name('admin.users.trash');
+    Route::get('/admin/audits', \App\Livewire\Admin\Audits\Index::class)->name('admin.audits.index');
+    
+    // Newsletters (Mala Direta)
+    Route::get('/admin/newsletters', \App\Livewire\Admin\Newsletter\Index::class)->name('admin.newsletter.index');
+    Route::get('/admin/newsletters/{newsletter}/build', \App\Livewire\Admin\Newsletter\Builder::class)->name('admin.newsletter.builder');
     });
 
     // Espaço do Assinante

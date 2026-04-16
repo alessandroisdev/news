@@ -33,11 +33,9 @@ class Login extends Component
             }
             
             if ($user->two_factor_enabled) {
-                // Gestores, Colunistas e Admins -> Dispara Barreira 2FA Zero Trust se Habilitados!
-                $user->generateTwoFactorCode();
-                \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\TwoFactorPinMail($user));
+                // Gestores -> Dispara Barreira 2FA Zero Trust se Habilitados!
+                // Criptografia TOTP Google Autenticator Exigida
                 session()->put('2fa_passed', false);
-                
                 return redirect()->route('admin.2fa.challenge');
             }
             

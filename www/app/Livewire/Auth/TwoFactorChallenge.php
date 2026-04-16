@@ -25,26 +25,17 @@ class TwoFactorChallenge extends Component
         ]);
 
         $user = Auth::user();
+        $google2fa = new \PragmaRX\Google2FA\Google2FA();
 
-        if ($user->two_factor_code === $this->code && $user->two_factor_expires_at->isFuture()) {
+        $valid = $google2fa->verifyKey($user->two_factor_secret, $this->code);
+
+        if ($valid) {
             // Sucesso Absoluto
-            $user->resetTwoFactorCode();
             session()->put('2fa_passed', true);
-            
             return redirect()->intended('/admin/dashboard');
         }
 
-        $this->addError('code', 'O código fornecido é inválido ou expirou. Tente reenviar.');
-    }
-
-    public function resend()
-    {
-        $user = Auth::user();
-        $user->generateTwoFactorCode();
-        
-        Mail::to($user->email)->send(new TwoFactorPinMail($user));
-        
-        session()->flash('message', 'Um novo código militar foi enviado ao seu E-mail.');
+        $this->addError('code', 'O código fornecido é inválido. Tente novamente.');
     }
 
     public function render()

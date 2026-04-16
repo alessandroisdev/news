@@ -13,8 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use App\Traits\Auditable;
 
-#[Fillable(['name', 'email', 'password', 'role', 'slug', 'bio', 'avatar', 'theme_color', 'social_links', 'asaas_customer_id', 'subscription_status', 'subscription_expires_at', 'two_factor_code', 'two_factor_expires_at', 'two_factor_enabled'])]
-#[Hidden(['password', 'remember_token'])]
+#[Fillable(['name', 'email', 'password', 'role', 'slug', 'bio', 'avatar', 'theme_color', 'social_links', 'asaas_customer_id', 'subscription_status', 'subscription_expires_at', 'two_factor_enabled', 'two_factor_secret', 'two_factor_recovery_codes'])]
+#[Hidden(['password', 'remember_token', 'two_factor_secret', 'two_factor_recovery_codes'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -71,21 +71,24 @@ class User extends Authenticatable
     }
 
     /**
-     * Engine de Zero Trust: Autenticação de 6 Dígitos
+     * Engine de Zero Trust: Google Authenticator (TOTP)
      */
-    public function generateTwoFactorCode()
+    public function enableTwoFactorSecret()
     {
-        $this->timestamps = false;
-        $this->two_factor_code = rand(100000, 999999);
-        $this->two_factor_expires_at = now()->addMinutes(15);
-        $this->save();
-    }
-
-    public function resetTwoFactorCode()
-    {
-        $this->timestamps = false;
-        $this->two_factor_code = null;
-        $this->two_factor_expires_at = null;
-        $this->save();
+        if (empty($this->two_factor_secret)) {
+            $google2fa = new \PragmaRX\Google2FA\Google2FA();
+            $this->two_factor_secret = $google2fa->generateSecretKey();
+            
+            // Gerar 8 códigos aleatórios de 10 caracteres (ex: A4B2Z9K1M3)
+            $recoveryCodes = [];
+            for ($i = 0; $i < 8; $i++) {
+                $recoveryCodes[] = strtoupper(substr(bin2hex(random_bytes(5)), 0, 10));
+            }
+            
+            // Grava em Hash o JSON dos códigos 
+            $this->two_factor_recovery_codes = encrypt(json_encode($recoveryCodes));
+            
+            $this->save();
+        }
     }
 }

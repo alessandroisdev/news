@@ -4,17 +4,10 @@
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4 bg-white p-4 p-md-5">
                 <div class="text-center mb-5">
                     <h3 class="fw-bolder mb-2 text-dark" style="font-family: 'Outfit', sans-serif;">
-                        <i class="bi bi-shield-lock-fill text-danger me-2"></i>Workspace Trancado
+                        <i class="bi bi-shield-lock-fill text-danger me-2"></i>Google Authenticator
                     </h3>
-                    <p class="text-muted">Acesso restrito detectado. Digite o código de 6 dígitos enviado para seu E-mail corporativo.</p>
+                    <p class="text-muted">Acesso restrito detectado. Digite o código de 6 dígitos gerado pelo seu Aplicativo de Autenticação.</p>
                 </div>
-
-                @if (session()->has('message'))
-                    <div class="alert alert-success alert-dismissible bg-success bg-opacity-10 border-0 border-start border-4 border-success text-success fw-bold rounded-3 fade show mb-4" role="alert">
-                        <i class="bi bi-check-circle-fill me-2"></i>{{ session('message') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
 
                 <form wire:submit.prevent="verify">
                     <div class="mb-4">
@@ -25,18 +18,12 @@
 
                     <button type="submit" class="btn btn-danger btn-lg w-100 fw-bold shadow-sm py-3 mb-3 border-0 transition-hover outline-none" style="border-radius: 8px;">
                         <span wire:loading.remove wire:target="verify">
-                            <i class="bi bi-door-open-fill me-2"></i> Liberar Acesso Administrativo
+                            <i class="bi bi-door-open-fill me-2"></i> Validar TOTP
                         </span>
                         <span wire:loading wire:target="verify">
                             <span class="spinner-border spinner-border-sm me-2 float-start mt-1"></span> Criptografando...
                         </span>
                     </button>
-                    
-                    <div class="text-center mt-4">
-                        <a href="#" wire:click.prevent="resend" class="text-decoration-none text-muted fw-semibold small hover-text-primary transition-colors">
-                            <i class="bi bi-arrow-clockwise me-1"></i> Não recebeu ou Inspirou? Reenviar PIN.
-                        </a>
-                    </div>
                 </form>
             </div>
             <p class="text-center text-muted small">
