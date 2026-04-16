@@ -11,6 +11,7 @@
         <li class="nav-item"><a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">Início</a></li>
         <li class="nav-item"><a class="nav-link {{ request()->is('ultimas') ? 'active' : '' }}" href="/ultimas">Últimas</a></li>
         <li class="nav-item"><a class="nav-link text-warning {{ request()->is('colunistas') ? 'fw-bold' : '' }}" href="/colunistas">Colunistas</a></li>
+        <li class="nav-item"><a class="nav-link {{ request()->is('contato') ? 'active' : '' }}" href="{{ route('frontend.contact') }}">Fale Conosco</a></li>
       </ul>
       <div class="d-flex align-items-center gap-3">
         <livewire:frontend.navbar-search />

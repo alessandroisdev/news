@@ -95,6 +95,20 @@
                         <i class="bi bi-eye-fill me-2"></i> Auditoria de Eventos
                     </a>
                 </li>
+                <li class="nav-item border-top mt-3 pt-3">
+                    <a href="{{ route('admin.inbox.index') }}" class="nav-link text-info px-3 py-2 border-0 {{ request()->routeIs('admin.inbox.index') ? 'active bg-info bg-opacity-10 fw-bold rounded-3' : '' }} d-flex justify-content-between align-items-center">
+                        <div><i class="bi bi-inbox-fill me-2 text-info"></i> Inbox Central</div>
+                        @php $unread = \App\Models\ContactMessage::where('is_read', false)->count(); @endphp
+                        @if($unread > 0)
+                            <span class="badge bg-danger rounded-pill">{{ $unread }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="nav-item mt-1">
+                    <a href="{{ route('admin.settings.index') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->routeIs('admin.settings.index') ? 'active bg-secondary bg-opacity-10 fw-bold rounded-3' : '' }}">
+                        <i class="bi bi-gear-fill me-2 fs-5"></i> Configurações Globais
+                    </a>
+                </li>
                 @endif
             </ul>
             

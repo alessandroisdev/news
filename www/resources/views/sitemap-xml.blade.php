@@ -19,6 +19,12 @@
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
+    
+    <url>
+        <loc>{{ url('/contato') }}</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
 
     <!-- Trilhas Taxonômicas (Categorias) -->
     @foreach ($categories as $category)

@@ -34,6 +34,7 @@ Route::get('/link/{hash}', [\App\Http\Controllers\LinkShortenerController::class
 // Telas Principais do Frontend
 Route::get('/ultimas', \App\Livewire\Frontend\LatestNews::class)->name('frontend.latest');
 Route::get('/colunistas', \App\Livewire\Frontend\ColumnistsIndex::class)->name('frontend.columnists');
+Route::get('/contato', \App\Livewire\Frontend\ContactForm::class)->name('frontend.contact');
 
 // Roteador Dinâmico On the Fly de Mídias (Glide)
 Route::get('/images/{slug}/{width?}/{height?}', [\App\Http\Controllers\MediaController::class, 'image'])->name('media.image');
@@ -108,6 +109,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/banners', \App\Livewire\Admin\Banners\Index::class)->name('admin.banners.index');
     Route::get('/admin/analytics', \App\Livewire\Admin\Analytics\Dashboard::class)->name('admin.analytics.dashboard');
     Route::get('/admin/analytics/content', \App\Livewire\Admin\Analytics\ContentMetrics::class)->name('admin.analytics.content');
+    
+    // Módulo Settings e Inbox
+    Route::get('/admin/inbox', \App\Livewire\Admin\Inbox\Index::class)->name('admin.inbox.index');
+    Route::get('/admin/settings', \App\Livewire\Admin\Settings\Index::class)->name('admin.settings.index');
+
     Route::get('/admin/users', \App\Livewire\Admin\Users\Index::class)->name('admin.users.index');
     Route::get('/admin/users/trash', \App\Livewire\Admin\Users\Trash::class)->name('admin.users.trash');
     Route::get('/admin/audits', \App\Livewire\Admin\Audits\Index::class)->name('admin.audits.index');
