@@ -32,14 +32,33 @@
                             <label class="form-label small fw-bold">Link Externo de Destino</label>
                             <input type="url" wire:model="target_url" class="form-control" placeholder="https://site-do-patrocinador.com">
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-4 position-relative">
                             <label class="form-label small fw-bold">Ou vincule a uma Notícia</label>
-                            <select wire:model="news_id" class="form-select">
-                                <option value="">Não vincular</option>
-                                @foreach($newsList as $n)
-                                    <option value="{{ $n->id }}">{{ Str::limit($n->title, 40) }}</option>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                                <input type="text" wire:model.live.debounce.300ms="newsSearch" class="form-control border-start-0 ps-0" placeholder="Digite para buscar pautas...">
+                            </div>
+                            
+                            @if(!empty($newsSearchResults))
+                            <ul class="list-group position-absolute w-100 z-3 shadow-lg border-primary border-opacity-25 mt-1" style="max-height: 250px; overflow-y: auto;">
+                                @foreach($newsSearchResults as $res)
+                                    <button type="button" wire:click="selectNews({{ $res['id'] }}, '{{ addslashes($res['title']) }}')" class="list-group-item list-group-item-action text-start py-2 px-3 small border-0 border-bottom border-light">
+                                        <i class="bi bi-file-text text-muted me-2"></i> {{ \Illuminate\Support\Str::limit($res['title'], 55) }}
+                                    </button>
                                 @endforeach
-                            </select>
+                            </ul>
+                            @elseif(strlen($newsSearch) >= 3 && !$news_id)
+                                <div class="position-absolute w-100 z-3 shadow-sm border mt-1 bg-white p-2 text-center text-muted small rounded-bottom">
+                                    Nenhuma notícia encontrada.
+                                </div>
+                            @endif
+                            
+                            @if($news_id)
+                                <div class="mt-2 small fw-bold text-success d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill me-2 fs-6"></i> Notícia Acoplada
+                                    <button type="button" class="btn btn-link btn-sm text-danger text-decoration-none p-0 ms-auto" wire:click="$set('newsSearch', '')">Desvincular</button>
+                                </div>
+                            @endif
                         </div>
                         
                         <div class="mb-4">

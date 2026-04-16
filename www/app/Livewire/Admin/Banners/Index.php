@@ -18,6 +18,38 @@ class Index extends Component
     public $is_active = true;
 
     public $search = '';
+    
+    // Live Search Dinâmico
+    public $newsSearch = '';
+    public $newsSearchResults = [];
+
+    public function updatedNewsSearch()
+    {
+        // Reseta o vínculo se limpar o campo
+        if (trim($this->newsSearch) === '') {
+            $this->news_id = null;
+            $this->newsSearchResults = [];
+            return;
+        }
+
+        if (strlen($this->newsSearch) >= 3) {
+            $this->newsSearchResults = News::where('title', 'like', "%{$this->newsSearch}%")
+                ->select('id', 'title')
+                ->latest('published_at')
+                ->limit(8)
+                ->get()
+                ->toArray();
+        } else {
+            $this->newsSearchResults = [];
+        }
+    }
+
+    public function selectNews($id, $title)
+    {
+        $this->news_id = $id;
+        $this->newsSearch = $title;
+        $this->newsSearchResults = [];
+    }
 
     public function render()
     {
@@ -26,10 +58,8 @@ class Index extends Component
             })
             ->latest()
             ->paginate(10);
-
         return view('livewire.admin.banners.index', [
-            'banners' => $banners,
-            'newsList' => News::latest()->limit(50)->get()
+            'banners' => $banners
         ])->layout('layouts.admin');
     }
 
@@ -52,7 +82,7 @@ class Index extends Component
             'is_active' => $this->is_active,
         ]);
 
-        $this->reset(['title', 'image', 'target_url', 'news_id', 'active_days', 'active_hours', 'is_active']);
+        $this->reset(['title', 'image', 'target_url', 'news_id', 'active_days', 'active_hours', 'is_active', 'newsSearch', 'newsSearchResults']);
         session()->flash('message', 'Banner programado com sucesso!');
     }
 
