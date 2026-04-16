@@ -6,7 +6,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Encurtador de Link (Base62)
+// Arquitetura RSS 2.0 (Feed Distribuído)
+Route::get('/feed', function () {
+    $news = \App\Models\News::where('state', \App\Enums\NewsStateEnum::PUBLISHED->value)
+        ->latest('published_at')
+        ->limit(30)
+        ->with(['author', 'category'])
+        ->get();
+        
+    return response()->view('feed', compact('news'))
+        ->header('Content-Type', 'text/xml');
+})->name('rss.feed');
+
 // Encurtador de Link (Base62)
 Route::get('/link/{hash}', [\App\Http\Controllers\LinkShortenerController::class, 'redirect'])->name('link.redirect');
 
@@ -108,5 +119,5 @@ Route::post('/logout', function (\Illuminate\Http\Request $request) {
 
 // Roteador Global Dinâmico da Raiz (Fallback Categoria>Coluna>Notícia)
 Route::get('/{slug}', [\App\Http\Controllers\FallbackRouteController::class, 'resolve'])
-    ->where('slug', '^(?!images|videos|link|api|login|admin|assinante|logout|ultimas|colunistas).*$')
+    ->where('slug', '^(?!images|videos|link|api|login|admin|assinante|logout|ultimas|colunistas|feed).*$')
     ->name('dynamic.slug');

@@ -1,58 +1,36 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+    <img src="https://ui-avatars.com/api/?name=Portal+Premium&background=0D8ABC&color=fff&size=150&font-size=0.33" alt="Logo do Portal" style="border-radius: 12px; shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
 </p>
 
-## About Laravel
+# 📰 Portal Definitivo CMS & AdTech
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+O projeto do **Portal Definitivo** foi reestruturado para ser um Hub de Informação Corporativo (CMS) completo, aliando design imersivo, alta performance do banco de dados e um inovador núcleo de Tracking Comportamental acoplado ao motor de anúncios nativos.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Principais Features Inovadoras
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Motor Semântico de Fingerprinting (Machine Learning Leve):** Diferente de cookies normais, o portal conta com um middleware invisível (`VisitorProfiler`) que mapeia IPs, Browser, OS, Dispositivos e o tráfego regional através de APIs de GeoIP. Ao ler uma notícia o score das categorias ganha pesos (`+1`, `+2`), traçando sua verdadeira intenção de leitura!
+- **Híbrido Hero Slider via Swiper.JS:** A vitrine global do portal lê o seu Score do BD. Se o Leitor adora *Esportes* ou *Educação*, a Home intercala Notícias dessas editorias mesclando com campanhas patrocinadas.
+- **Engine AdTech Dinâmica:** Motor de tráfego próprio onde o Gestor Administrador desenha e comissiona `Banners`, agendando rigidamente **os dias e as horas limites** para eles brilharem (Ex: Apenas Sextas Feiras das 20h às 23h).
+- **Workspace Multiusuário:** Hierarquia imbatível onde Assinantes possuem o "Meu Painel", enquanto Colunistas não interferem nas categorias, e Gestores monitoram as Lixeiras.
+- **Auditoria de Câmera Fria (`SystemAudit`):** Todo clique crítico é guardado, rastreado em log para transparência processual no admin board.
+- **FrankenPHP SSE Network:** O Portal emite *Server-Sent Events (SSE)* lidando em paralelo as conexões num único canal ativo (Otimizado por Heartbeat) para varrer e entregar em milissegundos mudanças Livewire sem esmagar ou poluir o pool da porta Web!
 
-## Learning Laravel
+## 🔌 API & Mídia Delivery
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Feed RSS Completo XML 2.0:** Distribuído em `/feed`. Aderente a agregadores da UOL, Microsoft Start e Google News com Namespace Automático Atom & Media. Compatibilidade vital com `<media:content>`.
+- **Media Library Interna:** Galeria de Ativos com upload massivo que reaproveita capas de matérias passadas na mesma interface interativa sem criar duplicações sujas de storage.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠️ Stack Tecnológico
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white) 
+![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white) 
+![Alpine.js](https://img.shields.io/badge/alpinejs-%238BC0D0.svg?style=for-the-badge&logo=alpinejs&logoColor=white) 
+![Livewire](https://img.shields.io/badge/livewire-%234e56a6.svg?style=for-the-badge&logo=livewire&logoColor=white) 
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![FrankenPHP](https://img.shields.io/badge/FrankenPHP-000000.svg?style=for-the-badge)
 
-## Agentic Development
+* Construído sob Laravel 11.
+* Orquestrado em Servidor Docker Isolado com Sail e FrankenPHP Octane.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
-```
-
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📜 Licença Corporativa
+Módulo em status *Production-Ready*. Desenvolvido sob sigilo de arquitetura Premium.
