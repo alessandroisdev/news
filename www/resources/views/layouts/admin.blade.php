@@ -35,13 +35,13 @@
 <body>
     <div class="d-flex">
         <!-- Sidebar Workspace -->
-        <nav class="sidebar bg-white flex-column d-flex overflow-auto z-3">
-            <div class="p-4 text-center">
+        <nav class="sidebar bg-white flex-column d-flex z-3" style="height: 100vh;">
+            <div class="p-4 text-center border-bottom shadow-sm z-2">
                 <h3 class="fw-bold text-primary mb-0" style="font-family: 'Outfit', sans-serif;"><i class="bi bi-box-fill me-2 text-warning"></i>WORK<span class="text-secondary">SPACE</span></h3>
                 <div class="badge bg-dark mt-3 w-100 py-2 fs-6 fw-normal">{{ optional(auth()->user())->role ?? 'Administrator' }}</div>
             </div>
             
-            <ul class="nav flex-column mb-auto py-3 px-3 gap-2" style="font-family: 'Inter', sans-serif;">
+            <ul class="nav flex-column py-3 px-3 gap-2 flex-grow-1 overflow-auto" style="font-family: 'Inter', sans-serif;">
                 <li class="nav-item">
                     <a href="/admin/dashboard" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->is('admin/dashboard') ? 'active bg-primary fw-bold text-white shadow-sm' : 'text-secondary' }}">
                         <i class="bi bi-speedometer2 me-2"></i> Visão Geral
