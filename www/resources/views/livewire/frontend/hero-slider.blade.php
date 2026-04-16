@@ -4,10 +4,13 @@
         <style>
             .hero-swiper {
                 width: 100%;
-                min-height: 60vh;
+                height: 60vh;
+                min-height: 500px;
+                background-color: #111;
             }
             .hero-swiper-slide {
                 width: 100%;
+                height: 100%;
                 position: relative;
                 overflow: hidden;
             }
@@ -100,24 +103,29 @@
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const swiper = new Swiper('.hero-swiper', {
-                    loop: true,
-                    effect: 'fade', // Super profissional
-                    autoplay: {
-                        delay: 5000,
-                        disableOnInteraction: false,
-                    },
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                    },
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                    },
-                });
-            });
+            function initHeroSwiper() {
+                if (document.querySelector('.hero-swiper')) {
+                    new Swiper('.hero-swiper', {
+                        loop: true,
+                        effect: 'fade', // Super profissional
+                        autoplay: {
+                            delay: 5000,
+                            disableOnInteraction: false,
+                        },
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                    });
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', initHeroSwiper);
+            document.addEventListener('livewire:navigated', initHeroSwiper);
         </script>
     @endpush
 </div>

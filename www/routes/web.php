@@ -14,17 +14,17 @@ Route::get('/feed', function () {
         ->with(['author', 'category'])
         ->get();
         
-    return response()->view('feed', compact('news'))
+    return response()->view('rss-feed', compact('news'))
         ->header('Content-Type', 'text/xml');
 })->name('rss.feed');
 
 // Sitemap XML Automático para SEO
 Route::get('/sitemap.xml', function () {
-    $news = \App\Models\News::where('state', \App\Enums\NewsStateEnum::PUBLISHED->value)->latest('published_at')->get();
+    $news = \App\Models\News::where('state', \App\Enums\NewsStateEnum::PUBLISHED->value)->latest('published_at')->limit(30)->get();
     $categories = \App\Models\Category::all();
     $columnists = \App\Models\User::where('role', \App\Enums\UserRoleEnum::COLUMNIST->value)->get();
     
-    return response()->view('sitemap', compact('news', 'categories', 'columnists'))
+    return response()->view('sitemap-xml', compact('news', 'categories', 'columnists'))
         ->header('Content-Type', 'text/xml');
 })->name('sitemap');
 

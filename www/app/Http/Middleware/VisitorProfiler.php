@@ -16,7 +16,7 @@ class VisitorProfiler
     public function handle(Request $request, Closure $next): Response
     {
         // Ignorar rotas de backend corporativo, botões de livewire e midias
-        if ($request->is('admin*') || $request->is('livewire*') || $request->is('images*') || $request->is('stream*') || $request->is('logout')) {
+        if ($request->is('admin*') || $request->is('livewire*') || $request->is('images*') || $request->is('stream*') || $request->is('logout') || $request->is('feed') || $request->is('sitemap.xml')) {
             return $next($request);
         }
 

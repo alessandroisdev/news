@@ -18,6 +18,7 @@
     @yield('dynamic_css_vars')
     
     @livewireStyles
+    @stack('styles')
 </head>
 <body>
     @include('layouts.partials.navbar')
@@ -30,5 +31,6 @@
     @include('layouts.partials.footer')
 
     @livewireScripts
+    @stack('scripts')
 </body>
 </html>
