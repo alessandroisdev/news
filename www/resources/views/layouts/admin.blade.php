@@ -109,6 +109,11 @@
                         @endif
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.newsletter.index') }}" class="nav-link text-success px-3 py-2 border-0 {{ request()->routeIs('admin.newsletter.*') ? 'active bg-success bg-opacity-10 fw-bold rounded-3' : '' }}">
+                        <i class="bi bi-envelope-paper-heart-fill me-2 fs-5"></i> Mailing (Boletins)
+                    </a>
+                </li>
                 <li class="nav-item mt-1">
                     <a href="{{ route('admin.settings.index') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->routeIs('admin.settings.index') ? 'active bg-secondary bg-opacity-10 fw-bold rounded-3' : '' }}">
                         <i class="bi bi-gear-fill me-2 fs-5"></i> Configurações Globais
