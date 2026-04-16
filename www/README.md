@@ -21,8 +21,12 @@ Focado em escalabilidade, o projeto vai muito além de um blog comum, entregando
 
 ### 3. Autenticação e Perfis (Subscriber Space)
 - **Dashboard do Leitor Logado:** Os leitores/assinantes VIP tem acesso focado a área de Autogestão (`/assinante`).
-- Módulo de Faturas/Pagamentos acoplados (gateway pronto para Asaas).
+- **Paywall Automático e Faturas:** Módulo acoplado de cobrança e histórico via integração com **API Asaas (PIX Transparente)**. O sistema fecha as rotas Premium com Intercepts robustos.
 - Upload assíncrono avançado de Avatares Sociais na nuvem sem reloading de página.
+
+### 4. Engine PWA (Offline-First)
+- O portal não é apenas um site, é um **Progressive Web App** instalável na área de trabalho e mobile.
+- Possui injeção de **Service Workers** interligados a rotas de *Fallback Offline* (`/offline`), garantindo utilidade e retenção do usuário caso a internet caia num engarrafamento ou zona cega, carregando UI otimizada de falha segura.
 
 ---
 
@@ -39,11 +43,17 @@ Abandona as engines pesadas e baseadas em JavaScript cliente (Como o TagManager)
 Totalmente imune a quebras do arquivo `.env`. As configurações chaves da plataforma agora ficam no seu Banco de Dados!
 - Os donos podem gerenciar e repor chaves (Ex: Mudou de Amazon SES para SendGrid? Só trocar no painel e o Laravel entende). O `SettingsServiceProvider` anula as pré-configurações no boot da aplicação reescrevendo-as em Memória Flash.
 
-### 🕵️ Autodefesa e Sistema Social de Comentários (O Poder do Shadowban)
-Um fórum blindado estilo Reddit/Facebook integrado ao corpo da sua narrativa.
-- **Comentários em Árvores Recursivas:** Threads hierárquicas que suportam conversas em nível (Pai responde Filho).
-- **O Banimento Fantasma (Shadowban):** Chegou um troll? Assim que ele ofender usando um léxico presente em sua Blacklist Dinâmica, o comentário dele aparentemente entrará tranquilamente na tela do autor. Gênial né? Contudo, o Banco de dados bloqueia para quem não é ele a visualização (Isola em quarentena de silêncio e desarma o atacante furioso).
-- **A Regra das 3 Vidas (Strikes System):** Se ele acionar o Shadowban três vezes, o motor "desliga" o input de submissão do leitor para todo o sempre em todas as Notícias do portal.
+### 🕵️ Autodefesa e Sistema Social (O Poder do Shadowban)
+Um fórum blindado estilo Reddit integrado ao corpo da sua narrativa.
+- **Árvores Recursivas:** Threads hierárquicas que suportam conversas em nível (Pai responde Filho).
+- **O Banimento Fantasma (Shadowban):** Chegou um troll? Assim que ofender usando um léxico presente em sua Blacklist, a ofensa entrará tranquilamente na tela dele. Gênial né? Contudo, o BD bloqueia para quem não é ele a visualização (Isola em quarentena de silêncio e desarma o atacante).
+- **Strikes System:** Acionou o Shadowban 3 vezes? O motor detona as interações pra sempre.
+
+### 🔐 Segurança Militar Zero-Trust (TOTP 2FA)
+A base administrativa foi desenvolvida pensando em brechas humanas de nível global.
+- **Algoritmo Base32 Universal:** Se o Administrador optar pela blindagem e ligar a chave 2FA, a Engine aciona uma matemática local via pacote `Google2Fa` que travará o CMS e exigirá leitura via QR-Code num App Autenticador. 
+- **Recovery Codes (Engine PDF):** Perdeu o celular? Abaixo do QR Code, renderiza nativamente na tela **8 Códigos Random Alfanuméricos Exclusivos** salvos como array estrito no MariaDB/MySQL.
+- **Integração PDF e E-mail:** Com a biblioteca `dompdf`, a administração baixa esse lote de 8 senhas "Mata-burro" numa Sulfite virtual (`.pdf`) na sua própria máquina e ou recebe instantaneamente por smtp. Se um destes tentar abrir a porta da plataforma, a senha explode (Self-destruct) antes do gestor entrar e o cofre limpa o rastro.
 
 ---
 
