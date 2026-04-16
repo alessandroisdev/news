@@ -3,8 +3,13 @@
 <head>
     <meta charset="utf-from-validation">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="@yield('meta_description', 'Portal de Notícias Profissional')">
-    <title>@yield('title', 'Portal')</title>
+    
+    <!-- Meta Dynamic SEO / OpenGraph Support -->
+    @yield('meta_seo')
+
+    <title>@yield('title', config('app.name', 'Portal News'))</title>
 
     <!-- Preloads & Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

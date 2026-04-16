@@ -59,6 +59,9 @@ class News extends Model
 
         static::saved(function ($news) {
             cache(['last_news_update' => microtime(true)]);
+            
+            // Laboratorio Grafico Call: OpenGraph Image
+            \App\Services\OpenGraphImageGenerator::generate($news);
         });
 
         static::deleted(function ($news) {

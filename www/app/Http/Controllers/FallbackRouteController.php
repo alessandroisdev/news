@@ -87,7 +87,37 @@ class FallbackRouteController extends Controller
                 ->take(4)
                 ->get();
                 
-            return view('news.show', compact('news', 'relatedNews'));
+            // === METERED PAYWALL LOGIC ===
+            $isVIP = auth()->check() && 
+                    auth()->user()->role == UserRoleEnum::SUBSCRIBER->value && 
+                    auth()->user()->subscription_status == 'active';
+            
+            $isBlocked = false;
+            $meteredReads = 0;
+            $freeReadsLimit = 3;
+
+            if ($news->is_premium && !$isVIP) {
+                if ($profile) {
+                    $meteredReads = \App\Models\AudienceMetric::where('visitor_profile_id', $profile->id)
+                        ->where('trackable_type', News::class)
+                        ->whereHasMorph('trackable', [News::class], function($q) {
+                            $q->where('is_premium', true);
+                        })
+                        ->whereYear('created_at', now()->year)
+                        ->whereMonth('created_at', now()->month)
+                        ->distinct('trackable_id')
+                        ->count('trackable_id');
+
+                    if ($meteredReads > $freeReadsLimit) {
+                        $isBlocked = true; // Bateu no teto da cota. Cai a lâmina.
+                    }
+                } else {
+                    // Navegação extrema sem cookie/incógnito forte? Bloquear por segurança.
+                    $isBlocked = true;
+                }
+            }
+                
+            return view('news.show', compact('news', 'relatedNews', 'isBlocked', 'meteredReads', 'freeReadsLimit', 'isVIP'));
         }
 
         abort(404, 'Conteúdo não encontrado');

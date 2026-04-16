@@ -2,6 +2,21 @@
 
 @section('title', $news->title)
 
+@section('meta_seo')
+    <meta property="og:title" content="{{ $news->title }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:description" content="{{ \Illuminate\Support\Str::limit(strip_tags($news->content), 120) }}" />
+    
+    @php $ogImage = 'storage/og/' . $news->id . '_' . $news->slug . '.jpg'; @endphp
+    @if(file_exists(public_path($ogImage)))
+        <meta property="og:image" content="{{ asset($ogImage) }}" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image">
+    @endif
+@endsection
+
 @section('dynamic_css_vars')
     @if($news->category && $news->category->theme_color)
     <style>
@@ -46,9 +61,6 @@
             @endif
 
             @php
-                $isVIP = auth()->check() && auth()->user()->isVIP();
-                $isBlocked = $news->is_premium && !$isVIP;
-                
                 $renderContent = $news->content;
                 
                 if ($isBlocked) {
@@ -69,9 +81,19 @@
             @endphp
 
             @if($news->is_premium)
-                <div class="badge bg-warning text-dark px-3 py-2 fw-bold rounded-pill mb-4 border border-warning shadow-sm" style="font-size: 0.8rem;">
-                    <i class="bi bi-star-fill me-1"></i> CONTEÚDO PREMIUM
-                </div>
+                @if(!$isBlocked && !$isVIP && isset($meteredReads))
+                    <div class="alert alert-warning border border-warning shadow-sm d-flex align-items-center rounded-4 mb-4">
+                        <i class="bi bi-unlock-fill fs-3 text-warning me-3"></i>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-1">Conteúdo Premium Desbloqueado</h6>
+                            <p class="mb-0 text-muted small">Você está consumindo <strong>{{ min($meteredReads, $freeReadsLimit) }} de {{ $freeReadsLimit }}</strong> leituras gratuitas deste mês. <a href="{{ route('login') }}" class="text-dark fw-bold text-decoration-underline">Assine</a> para ler sem limites.</p>
+                        </div>
+                    </div>
+                @else
+                    <div class="badge bg-warning text-dark px-3 py-2 fw-bold rounded-pill mb-4 border border-warning shadow-sm" style="font-size: 0.8rem;">
+                        <i class="bi bi-star-fill me-1"></i> CONTEÚDO PREMIUM
+                    </div>
+                @endif
             @endif
 
             <article class="news-content fs-5 text-dark position-relative" style="line-height: 1.8; font-family: 'Inter', sans-serif;">
@@ -88,7 +110,7 @@
                         <div class="bg-white p-5 rounded-4 shadow text-center border border-primary border-3 w-100" style="max-width: 550px; transform: translateY(40px);">
                             <i class="bi bi-gem text-primary mb-3 d-block" style="font-size: 3rem;"></i>
                             <h3 class="fw-bolder mb-3 text-dark" style="font-family: 'Outfit', sans-serif;">Continue lendo esta matéria com o Acesso Premium</h3>
-                            <p class="text-muted mb-4 fs-6">O jornalismo investigativo e independente precisa de você. Assine para desbloquear esta reportagem e ganhe acesso total sem anúncios.</p>
+                            <p class="text-muted mb-4 fs-6">Você atingiu seu limite de matérias gratuitas por mês. O jornalismo investigativo e independente precisa de você. Assine para continuar lendo sem barreiras.</p>
                             
                             <div class="d-flex flex-column gap-3">
                                 <a href="{{ route('login') }}" class="btn btn-primary btn-lg fw-bold px-5 shadow-sm rounded-pill py-3">Assine já por apenas R$ 19,90/mês</a>
