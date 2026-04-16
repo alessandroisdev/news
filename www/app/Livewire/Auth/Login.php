@@ -25,13 +25,19 @@ class Login extends Component
             session()->regenerate();
             
             // Redirecionamento dinâmico baseado na Role do Sanctum/User (Obrigatório pela modelagem do projeto)
-            $role = Auth::user()->role;
+            $user = Auth::user();
+            $role = $user->role;
+            
             if ($role === \App\Enums\UserRoleEnum::SUBSCRIBER->value) {
                 return redirect()->intended('/assinante');
             }
             
-            // Gestores, Colunistas e Admins vão para o dashboard macro
-            return redirect()->intended('/admin/dashboard');
+            // Gestores, Colunistas e Admins -> Dispara Barreira 2FA Zero Trust!
+            $user->generateTwoFactorCode();
+            \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\TwoFactorPinMail($user));
+            session()->put('2fa_passed', false);
+            
+            return redirect()->route('admin.2fa.challenge');
         }
 
         $this->addError('email', 'As credenciais fornecidas não conferem ou você não tem acesso.');

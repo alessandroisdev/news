@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use App\Traits\Auditable;
 
-#[Fillable(['name', 'email', 'password', 'role', 'slug', 'bio', 'avatar', 'theme_color', 'social_links', 'asaas_customer_id', 'subscription_status', 'subscription_expires_at'])]
+#[Fillable(['name', 'email', 'password', 'role', 'slug', 'bio', 'avatar', 'theme_color', 'social_links', 'asaas_customer_id', 'subscription_status', 'subscription_expires_at', 'two_factor_code', 'two_factor_expires_at'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -67,5 +67,24 @@ class User extends Authenticatable
             \App\Enums\UserRoleEnum::MANAGER->value,
             \App\Enums\UserRoleEnum::COLUMNIST->value,
         ]) || $this->subscription_status === 'active';
+    }
+
+    /**
+     * Engine de Zero Trust: Autenticação de 6 Dígitos
+     */
+    public function generateTwoFactorCode()
+    {
+        $this->timestamps = false;
+        $this->two_factor_code = rand(100000, 999999);
+        $this->two_factor_expires_at = now()->addMinutes(15);
+        $this->save();
+    }
+
+    public function resetTwoFactorCode()
+    {
+        $this->timestamps = false;
+        $this->two_factor_code = null;
+        $this->two_factor_expires_at = null;
+        $this->save();
     }
 }

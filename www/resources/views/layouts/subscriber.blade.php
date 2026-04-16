@@ -9,6 +9,7 @@
     <!-- Assets via Vite -->
     @vite(['resources/scss/app.scss', 'resources/js/app.js'])
     @livewireStyles
+    @include('layouts.partials.pwa-head')
     <style>
         body { background-color: #f4f6fa; }
         .premium-nav { 

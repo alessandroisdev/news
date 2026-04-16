@@ -10,6 +10,7 @@
     @vite(['resources/scss/app.scss', 'resources/js/app.js'])
     @livewireStyles
     @stack('styles')
+    @include('layouts.partials.pwa-head')
     <style>
         body { background-color: #f8f9fc; }
         .sidebar { min-height: 100vh; width: 280px; position: fixed; box-shadow: 2px 0 10px rgba(0,0,0,0.03); }

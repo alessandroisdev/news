@@ -19,6 +19,7 @@
     
     @livewireStyles
     @stack('styles')
+    @include('layouts.partials.pwa-head')
 </head>
 <body>
     @include('layouts.partials.navbar')

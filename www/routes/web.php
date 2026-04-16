@@ -28,6 +28,9 @@ Route::get('/sitemap.xml', function () {
         ->header('Content-Type', 'text/xml');
 })->name('sitemap');
 
+// PWA: Rota de Salvaguarda Offline Fallback
+Route::view('/offline', 'offline')->name('pwa.offline');
+
 // Encurtador de Link (Base62)
 Route::get('/link/{hash}', [\App\Http\Controllers\LinkShortenerController::class, 'redirect'])->name('link.redirect');
 
@@ -98,8 +101,12 @@ Route::middleware('auth')->group(function () {
         ]);
     })->name('stream.news');
 
-    // Espaço da Gestão (Totalmente integrado no Livewire em tempo real)
-    Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
+    // Rota Escapada do Middleware (Tela do Desafio)
+    Route::get('/admin/2fa', \App\Livewire\Auth\TwoFactorChallenge::class)->name('admin.2fa.challenge');
+
+    // Espaço da Gestão (Totalmente integrado no Livewire em tempo real e Blindado pelo 2FA)
+    Route::middleware([\App\Http\Middleware\TwoFactorVerification::class])->group(function() {
+        Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
     
     // Módulos CRUD do Painel Administrativo
     Route::get('/admin/news', \App\Livewire\Admin\News\Index::class)->name('admin.news.index');
@@ -118,9 +125,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/comments/moderation', \App\Livewire\Admin\Comments\Moderation::class)->name('admin.comments.moderation');
 
     Route::get('/admin/users', \App\Livewire\Admin\Users\Index::class)->name('admin.users.index');
-    Route::get('/admin/users/trash', \App\Livewire\Admin\Users\Trash::class)->name('admin.users.trash');
-    Route::get('/admin/audits', \App\Livewire\Admin\Audits\Index::class)->name('admin.audits.index');
-    
+        Route::get('/admin/users/trash', \App\Livewire\Admin\Users\Trash::class)->name('admin.users.trash');
+        Route::get('/admin/audits', \App\Livewire\Admin\Audits\Index::class)->name('admin.audits.index');
+    });
+
     // Espaço do Assinante
     Route::get('/assinante', \App\Livewire\Subscriber\Dashboard::class)->name('subscriber.dashboard');
     Route::get('/assinante/perfil', \App\Livewire\Subscriber\Profile::class)->name('subscriber.profile');
