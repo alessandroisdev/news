@@ -139,6 +139,9 @@ Route::middleware('auth')->group(function () {
     // Newsletters (Mala Direta)
     Route::get('/admin/newsletters', \App\Livewire\Admin\Newsletter\Index::class)->name('admin.newsletter.index');
     Route::get('/admin/newsletters/{newsletter}/build', \App\Livewire\Admin\Newsletter\Builder::class)->name('admin.newsletter.builder');
+
+    // Central de Ajuda
+    Route::get('/admin/help', \App\Livewire\Admin\Help\Index::class)->name('admin.help.index');
     });
 
     // Espaço do Assinante

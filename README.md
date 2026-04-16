@@ -55,6 +55,15 @@ A base administrativa foi desenvolvida pensando em brechas humanas de nível glo
 - **Recovery Codes (Engine PDF):** Perdeu o celular? Abaixo do QR Code, renderiza nativamente na tela **8 Códigos Random Alfanuméricos Exclusivos** salvos como array estrito no MariaDB/MySQL.
 - **Integração PDF e E-mail:** Com a biblioteca `dompdf`, a administração baixa esse lote de 8 senhas "Mata-burro" numa Sulfite virtual (`.pdf`) na sua própria máquina e ou recebe instantaneamente por smtp. Se um destes tentar abrir a porta da plataforma, a senha explode (Self-destruct) antes do gestor entrar e o cofre limpa o rastro.
 
+### 💰 Funil de Retenção (Metered Paywall & OAuth)
+Engrenagens de tráfego orgânico nativo que substituem dezenas de bibliotecas analíticas e gatilhos lentos externos.
+- **Metered Paywall (Catraca Flexível):** Um cruzamento da tabela polimórfica `AudienceMetric` permite contar estritamente as matérias Premium lidas pelo usuário único mensalmente. O bloqueio desfoca a matéria ao atingir a 4ª inserção de forma hard-stop, sem depender de cache frágil de JS.
+- **Single Sign-On (Social Login):** Derrubada de atrito! Usando o driver robusto nativo OAuth, o Portal integra de forma híbrida com a Google sem criar chaves corrompidas e rouba a exata tipografia da foto de perfil direto pro disco rígido local do servidor eliminando formulários absurdos.
+
+### 📣 Aquisição Furtiva (Web Push e OpenGraph)
+- **Web Push Engine (VAPID Nativo):** Esqueça o OneSignal. Usando o protocolo Web Push encrustrado no nosso `sw.js` (Worker PWA), a redação aperta a chave vermelha de *Breaking News* no painel e milhares de telas vão pulsar a matéria nos celulares sem necessidade de intermédio corporativo externo e sem taxas em dólar.
+- **A Arte do SEO (Intervention Image):** Você escolhe a foto e escreve um super título. Nosso pacote de `Observer/Boot` interceptará a criação da notícia para pintar um degradê, aplicar sua Logo em marca d'água e quebrar o Texto perfeitamente numa imagem invisível de JPG 1200x630. Essa tela não-existente é lida secretamente pelas meta-tags estáticas para reter e espalhar pelo WhatsApp os seus cards muito lindamente polidos.
+
 ---
 
 ## 🛠️ Stack Tecnológica

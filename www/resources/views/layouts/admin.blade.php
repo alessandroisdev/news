@@ -41,69 +41,75 @@
                 <div class="badge bg-dark mt-3 w-100 py-2 fs-6 fw-normal">{{ optional(auth()->user())->role ?? 'Administrator' }}</div>
             </div>
             
-            <ul class="nav flex-column mb-auto py-3 px-3 gap-2">
+            <ul class="nav flex-column mb-auto py-3 px-3 gap-2" style="font-family: 'Inter', sans-serif;">
                 <li class="nav-item">
-                    <a href="/admin/dashboard" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-                        <i class="bi bi-speedometer2 me-2"></i> Painel Geral
+                    <a href="/admin/dashboard" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->is('admin/dashboard') ? 'active bg-primary fw-bold text-white shadow-sm' : 'text-secondary' }}">
+                        <i class="bi bi-speedometer2 me-2"></i> Visão Geral
                     </a>
                 </li>
                 
+                <!-- CONTEÚDO E REDAÇÃO -->
                 <li class="nav-item mt-3 mb-1">
-                    <small class="text-muted fw-bold text-uppercase px-3" style="font-size: 0.75rem; letter-spacing: 1px;">Gestão</small>
+                    <small class="text-muted fw-bolder text-uppercase px-3" style="font-size: 0.70rem; letter-spacing: 1px;">Redação</small>
                 </li>
-                
                 <li class="nav-item">
-                    <a href="{{ route('admin.news.index') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->is('admin/news*') ? 'active' : '' }}">
-                        <i class="bi bi-journal-text me-2"></i> Minhas Notícias
+                    <a href="{{ route('admin.news.index') }}" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->is('admin/news*') ? 'active bg-primary bg-opacity-10 fw-bold text-primary' : 'text-secondary' }}">
+                        <i class="bi bi-journal-richtext me-2"></i> Matérias / Artigos
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.comments.moderation') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->routeIs('admin.comments.moderation') ? 'active bg-primary bg-opacity-25 fw-bold text-dark rounded-3' : '' }}">
-                        <i class="bi bi-shield-check me-2"></i> Moderação de Comentários
+                    <a href="{{ route('admin.comments.moderation') }}" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->routeIs('admin.comments.moderation') ? 'active bg-primary bg-opacity-10 fw-bold text-primary' : 'text-secondary' }}">
+                        <i class="bi bi-chat-square-quote-fill me-2"></i> Moderação Fórum
                     </a>
                 </li>
                 @if(in_array(optional(auth()->user())->role, [\App\Enums\UserRoleEnum::ADMIN->value, \App\Enums\UserRoleEnum::MANAGER->value]))
                 <li class="nav-item">
-                    <a href="{{ route('admin.categories.index') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->is('admin/categories*') ? 'active' : '' }}">
-                        <i class="bi bi-tags me-2"></i> Categorias SEO
+                    <a href="{{ route('admin.categories.index') }}" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->is('admin/categories*') ? 'active bg-primary bg-opacity-10 fw-bold text-primary' : 'text-secondary' }}">
+                        <i class="bi bi-tags-fill me-2"></i> Mapas e Categorias
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/banners" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->is('admin/banners*') ? 'active' : '' }}">
-                        <i class="bi bi-megaphone me-2"></i> AdTech (Banners)
+                    <a href="{{ route('admin.newsletter.index') }}" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->routeIs('admin.newsletter.*') ? 'active bg-info bg-opacity-10 fw-bold text-info' : 'text-secondary' }}">
+                        <i class="bi bi-envelope-paper-heart-fill me-2"></i> Edições de Mailing
                     </a>
                 </li>
                 @endif
                 
+                <!-- PERFORMANCE E ADTECH -->
+                @if(in_array(optional(auth()->user())->role, [\App\Enums\UserRoleEnum::ADMIN->value, \App\Enums\UserRoleEnum::MANAGER->value]))
+                <li class="nav-item mt-3 mb-1">
+                    <small class="text-muted fw-bolder text-uppercase px-3" style="font-size: 0.70rem; letter-spacing: 1px;">Crescimento</small>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/analytics" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->routeIs('admin.analytics.dashboard') ? 'active bg-success bg-opacity-10 fw-bold text-success' : 'text-secondary' }}">
+                        <i class="bi bi-pie-chart-fill me-2"></i> Analytics Hype
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.analytics.content') }}" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->routeIs('admin.analytics.content') ? 'active bg-success bg-opacity-10 fw-bold text-success' : 'text-secondary' }}">
+                        <i class="bi bi-graph-up-arrow me-2"></i> Auditor Content
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/banners" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->is('admin/banners*') ? 'active bg-warning bg-opacity-10 fw-bold text-dark' : 'text-secondary' }}">
+                        <i class="bi bi-megaphone-fill me-2"></i> Gestor AdTech
+                    </a>
+                </li>
+                @endif
+                
+                <!-- GESTÃO EMPRESARIAL -->
                 @if(optional(auth()->user())->role === \App\Enums\UserRoleEnum::ADMIN->value)
-                <li class="nav-item border-top mt-3 pt-3">
-                    <a href="{{ route('admin.users.index') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
-                        <i class="bi bi-people-fill me-2"></i> Usuários e Acessos
+                <li class="nav-item border-top mt-3 pt-3 mb-1">
+                    <small class="text-muted fw-bolder text-uppercase px-3" style="font-size: 0.70rem; letter-spacing: 1px;">Corporativo</small>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.users.index') }}" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->routeIs('admin.users.index') ? 'active bg-primary bg-opacity-10 fw-bold text-primary' : 'text-secondary' }}">
+                        <i class="bi bi-people-fill me-2"></i> Credenciais e Acessos
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.users.trash') }}" class="nav-link text-danger px-3 py-2 border-0 {{ request()->routeIs('admin.users.trash') ? 'bg-danger bg-opacity-10 fw-bold rounded-3' : '' }}">
-                        <i class="bi bi-trash-fill me-2"></i> Lixeira Central
-                    </a>
-                </li>
-                <li class="nav-item border-top mt-3 pt-3">
-                    <a href="/admin/analytics" class="nav-link text-success px-3 py-2 border-0 {{ request()->routeIs('admin.analytics.dashboard') ? 'active bg-success bg-opacity-10 fw-bold rounded-3' : '' }}">
-                        <i class="bi bi-pie-chart-fill me-2"></i> Engine Analytics
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.analytics.content') }}" class="nav-link text-primary px-3 py-2 border-0 {{ request()->routeIs('admin.analytics.content') ? 'active bg-primary bg-opacity-10 fw-bold rounded-3' : '' }}">
-                        <i class="bi bi-map me-2"></i> Auditor de Conteúdo
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.audits.index') }}" class="nav-link text-warning px-3 py-2 border-0 {{ request()->routeIs('admin.audits.index') ? 'active bg-warning bg-opacity-10 fw-bold rounded-3' : '' }}">
-                        <i class="bi bi-eye-fill me-2"></i> Auditoria de Eventos
-                    </a>
-                </li>
-                <li class="nav-item border-top mt-3 pt-3">
-                    <a href="{{ route('admin.inbox.index') }}" class="nav-link text-info px-3 py-2 border-0 {{ request()->routeIs('admin.inbox.index') ? 'active bg-info bg-opacity-10 fw-bold rounded-3' : '' }} d-flex justify-content-between align-items-center">
-                        <div><i class="bi bi-inbox-fill me-2 text-info"></i> Inbox Central</div>
+                    <a href="{{ route('admin.inbox.index') }}" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->routeIs('admin.inbox.index') ? 'active bg-info bg-opacity-10 fw-bold text-info' : 'text-secondary' }} d-flex justify-content-between align-items-center">
+                        <div><i class="bi bi-inbox-fill me-2"></i> Inbox Assessoria</div>
                         @php $unread = \App\Models\ContactMessage::where('is_read', false)->count(); @endphp
                         @if($unread > 0)
                             <span class="badge bg-danger rounded-pill">{{ $unread }}</span>
@@ -111,19 +117,34 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.newsletter.index') }}" class="nav-link text-success px-3 py-2 border-0 {{ request()->routeIs('admin.newsletter.*') ? 'active bg-success bg-opacity-10 fw-bold rounded-3' : '' }}">
-                        <i class="bi bi-envelope-paper-heart-fill me-2 fs-5"></i> Mailing (Boletins)
+                    <a href="{{ route('admin.audits.index') }}" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->routeIs('admin.audits.index') ? 'active bg-secondary bg-opacity-10 fw-bold text-dark' : 'text-secondary' }}">
+                        <i class="bi bi-fingerprint me-2 fs-5"></i> Rastros (Logs)
                     </a>
                 </li>
-                <li class="nav-item mt-1">
-                    <a href="{{ route('admin.settings.index') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->routeIs('admin.settings.index') ? 'active bg-secondary bg-opacity-10 fw-bold rounded-3' : '' }}">
-                        <i class="bi bi-gear-fill me-2 fs-5"></i> Configurações Globais
+                <li class="nav-item">
+                    <a href="{{ route('admin.users.trash') }}" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->routeIs('admin.users.trash') ? 'active bg-danger bg-opacity-10 fw-bold text-danger' : 'text-danger fw-semibold' }}">
+                        <i class="bi bi-trash3-fill me-2"></i> Lixeira Secreta
+                    </a>
+                </li>
+                
+                <!-- SISTEMA -->
+                <li class="nav-item border-top mt-3 pt-3 mb-1">
+                    <small class="text-muted fw-bolder text-uppercase px-3" style="font-size: 0.70rem; letter-spacing: 1px;">Sistema</small>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.settings.index') }}" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->routeIs('admin.settings.index') ? 'active bg-dark fw-bold text-white shadow-sm' : 'text-dark fw-semibold' }}">
+                        <i class="bi bi-gear-wide-connected me-2"></i> Base Settings
                     </a>
                 </li>
                 @endif
+                <li class="nav-item mt-1">
+                    <a href="{{ route('admin.help.index') }}" class="nav-link px-3 py-2 border-0 rounded-3 {{ request()->routeIs('admin.help.index') ? 'active bg-warning fw-bold text-dark shadow-sm' : 'text-dark' }}" style="background-color: #f1f5f9;">
+                        <i class="bi bi-lightbulb-fill me-2 text-warning"></i> Wiki / Ajuda
+                    </a>
+                </li>
             </ul>
             
-            <div class="p-4 mt-auto border-top text-center">
+            <div class="p-4 mt-auto border-top text-center" style="background-color: #fafbfc;">
                 <span class="text-muted small fw-semibold">Workspace Engine v1.0<br>Powered by Sanctum</span>
             </div>
         </nav>
