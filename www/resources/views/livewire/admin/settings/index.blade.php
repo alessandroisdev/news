@@ -63,6 +63,23 @@
                                 <label class="form-label text-muted small fw-bold"><i class="bi bi-twitter-x text-dark"></i> Twitter/X (URL)</label>
                                 <input type="text" class="form-control" wire:model="site_twitter">
                             </div>
+                            
+                            <hr class="my-4 text-muted">
+                            <h6 class="fw-bold mb-3 text-danger"><i class="bi bi-shield-lock-fill me-1"></i> Moderação & Comunidade</h6>
+                            
+                            <div class="col-md-12 mb-3">
+                                <div class="form-check form-switch fs-5">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="allow_comments_globally" wire:model="allow_comments_globally">
+                                    <label class="form-check-label fs-6 fw-bold" for="allow_comments_globally">Habilitar Motor de Comentários no Portal Inteiro</label>
+                                </div>
+                                <small class="text-muted d-block mt-1">Se desligado, desativa o formulário de comentários em todas as notícias independentemente de serem permitidos individualmente.</small>
+                            </div>
+                            
+                            <div class="col-md-12 mb-2">
+                                <label class="form-label text-muted small fw-bold">Lista Negra do Shadowban (Termos Censurados)</label>
+                                <p class="small text-muted mb-2">Qualquer menção a essas palavras nos comentários colocará o autor no <span class="badge bg-dark bg-opacity-10 text-dark border">Shadowban</span> (ninguém vê o comentário além do agressor). Separe por vírgulas.</p>
+                                <textarea class="form-control border-danger border-opacity-50" wire:model="banned_words" rows="3" placeholder="merda, foder, estúpido, etc..."></textarea>
+                            </div>
                         </div>
                         <div class="mt-4 text-end">
                             <button type="submit" class="btn btn-primary px-4 fw-bold shadow-sm">

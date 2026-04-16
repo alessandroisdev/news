@@ -11,6 +11,7 @@ class Index extends Component
 
     // Vars de General
     public $site_name, $site_phone, $site_address, $site_facebook, $site_instagram, $site_twitter;
+    public $allow_comments_globally, $banned_words;
     
     // Vars de SMTP
     public $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption;
@@ -25,6 +26,8 @@ class Index extends Component
         $this->site_facebook = Setting::get('site_facebook');
         $this->site_instagram = Setting::get('site_instagram');
         $this->site_twitter = Setting::get('site_twitter');
+        $this->allow_comments_globally = Setting::get('allow_comments_globally', '1');
+        $this->banned_words = Setting::get('banned_words', '');
 
         // SMTP
         $this->smtp_host = Setting::get('smtp_host', config('mail.mailers.smtp.host'));
@@ -46,6 +49,8 @@ class Index extends Component
         Setting::set('site_facebook', $this->site_facebook);
         Setting::set('site_instagram', $this->site_instagram);
         Setting::set('site_twitter', $this->site_twitter);
+        Setting::set('allow_comments_globally', $this->allow_comments_globally ? '1' : '0');
+        Setting::set('banned_words', $this->banned_words);
 
         session()->flash('success', 'Configurações gerais salvas com sucesso!');
     }

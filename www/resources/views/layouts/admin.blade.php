@@ -56,6 +56,11 @@
                         <i class="bi bi-journal-text me-2"></i> Minhas Notícias
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.comments.moderation') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->routeIs('admin.comments.moderation') ? 'active bg-primary bg-opacity-25 fw-bold text-dark rounded-3' : '' }}">
+                        <i class="bi bi-shield-check me-2"></i> Moderação de Comentários
+                    </a>
+                </li>
                 @if(in_array(optional(auth()->user())->role, [\App\Enums\UserRoleEnum::ADMIN->value, \App\Enums\UserRoleEnum::MANAGER->value]))
                 <li class="nav-item">
                     <a href="{{ route('admin.categories.index') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->is('admin/categories*') ? 'active' : '' }}">

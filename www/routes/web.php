@@ -113,6 +113,9 @@ Route::middleware('auth')->group(function () {
     // Módulo Settings e Inbox
     Route::get('/admin/inbox', \App\Livewire\Admin\Inbox\Index::class)->name('admin.inbox.index');
     Route::get('/admin/settings', \App\Livewire\Admin\Settings\Index::class)->name('admin.settings.index');
+    
+    // Módulo de Moderação de Comentários
+    Route::get('/admin/comments/moderation', \App\Livewire\Admin\Comments\Moderation::class)->name('admin.comments.moderation');
 
     Route::get('/admin/users', \App\Livewire\Admin\Users\Index::class)->name('admin.users.index');
     Route::get('/admin/users/trash', \App\Livewire\Admin\Users\Trash::class)->name('admin.users.trash');

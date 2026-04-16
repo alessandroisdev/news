@@ -50,6 +50,22 @@
             <div class="ad-space w-100 bg-light text-center py-5 my-5 border rounded-3 transition-hover" style="border-style: dashed !important; border-color: #ced4da;">
                 <p class="text-muted mb-0 fw-semibold"><i class="bi bi-badge-ad me-2 text-primary"></i>Anúncio Sugerido - In Article</p>
             </div>
+            
+            <!-- Motor de Respostas e Comentários -->
+            @php $allowGlobally = \App\Models\Setting::get('allow_comments_globally', '1') == '1'; @endphp
+            @if($allowGlobally && $news->allow_comments)
+                <livewire:frontend.news-comments :newsId="$news->id" />
+            @elseif(!$allowGlobally)
+                <div class="alert alert-secondary mt-5 py-4 text-center border-0 rounded-4">
+                    <i class="bi bi-chat-square-text fs-3 text-muted mb-2 d-block"></i>
+                    <p class="mb-0 fw-semibold">Os comentários estão temporariamente desativados em todo o portal.</p>
+                </div>
+            @else
+                <div class="alert alert-secondary mt-5 py-4 text-center border-0 rounded-4">
+                    <i class="bi bi-chat-square-text fs-3 text-muted mb-2 d-block"></i>
+                    <p class="mb-0 fw-semibold">Os comentários para esta notícia foram desativados pelo autor.</p>
+                </div>
+            @endif
         </div>
         
         <!-- Sidebar Inteligente -->
