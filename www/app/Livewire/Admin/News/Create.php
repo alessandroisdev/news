@@ -64,6 +64,15 @@ class Create extends Component
             $filename = $this->cover_image->store('news', 'public');
             // Retira a subpasta se desejar manter mapeado de forma crua, mas vamos manter raw
             $news->cover_image = $filename;
+
+            \App\Models\MediaAsset::create([
+                'user_id' => $user->id,
+                'file_name' => 'Capa: ' . $this->cover_image->getClientOriginalName(),
+                'file_path' => $filename,
+                'mime_type' => $this->cover_image->getMimeType(),
+                'size' => $this->cover_image->getSize(),
+                'disk' => 'public',
+            ]);
         }
 
         $news->save();

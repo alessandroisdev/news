@@ -53,6 +53,14 @@ class News extends Model
                 $count++;
             }
         });
+
+        static::saved(function ($news) {
+            cache(['last_news_update' => microtime(true)]);
+        });
+
+        static::deleted(function ($news) {
+            cache(['last_news_update' => microtime(true)]);
+        });
     }
 
     public function category(): BelongsTo

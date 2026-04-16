@@ -58,6 +58,15 @@ class Edit extends Component
         if ($this->cover_image) {
             $filename = $this->cover_image->store('news', 'public');
             $this->newsModel->cover_image = $filename;
+
+            \App\Models\MediaAsset::create([
+                'user_id' => $user->id,
+                'file_name' => 'Capa: ' . $this->cover_image->getClientOriginalName(),
+                'file_path' => $filename,
+                'mime_type' => $this->cover_image->getMimeType(),
+                'size' => $this->cover_image->getSize(),
+                'disk' => 'public',
+            ]);
         }
 
         $this->newsModel->save();

@@ -11,6 +11,8 @@ class Index extends Component
 {
     use WithPagination;
 
+    protected string $paginationTheme = 'bootstrap';
+
     public function render()
     {
         $user = Auth::user();

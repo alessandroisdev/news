@@ -11,11 +11,18 @@ class Index extends Component
 {
     use WithPagination;
 
+    protected string $paginationTheme = 'bootstrap';
+
     public $name;
     public $description;
     public $theme_color = '#0056b3'; // Padrão azul moderno portal
     public $editingId = null;
     public $confirmingDeletionId = null;
+
+    public function mount()
+    {
+        $this->authorizeAdminOrManager();
+    }
 
     protected function rules()
     {

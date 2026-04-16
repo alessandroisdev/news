@@ -54,6 +54,7 @@
                                     ['link', 'image', 'video'],
                                     ['clean']
                                 ]
+                            }
                         });
                         quill.root.innerHTML = content;
                         quill.on('text-change', function () {

@@ -22,6 +22,60 @@ Route::get('/videos/{slug}', [\App\Http\Controllers\MediaController::class, 'vid
 Route::get('/login', \App\Livewire\Auth\Login::class)->name('login');
 
 Route::middleware('auth')->group(function () {
+    // Endpoint Streaming (SSE - Server Sent Events) para Updates In-Place de Tabela
+    Route::get('/stream/news', function () {
+        return response()->stream(function () {
+            try {
+                // Liberar lock de sessão IMEDIATAMENTE (vital para as outras abas do admin continuarem funcionando)
+                session()->save();
+                set_time_limit(0);
+
+                // Headers de keep-alive inicial rápido para estabilizar o EventSource
+                echo ":" . str_repeat(" ", 2048) . "\n\n";
+                echo "retry: 2000\n\n"; // Dita a regra padrão de reconexão do browser em caso de falha externa
+                if (ob_get_level() > 0) ob_flush();
+                flush();
+
+                $lastCheck = cache('last_news_update', 0);
+                $startTime = microtime(true);
+
+                while (true) {
+                    if (connection_aborted() || connection_status() !== CONNECTION_NORMAL) {
+                        break; // Quebra do client
+                    }
+                    
+                    // FrankenPHP/Octane Workers não devem ficar presos Ad-Eternum por uma única conexão HTTP.
+                    // Reciclamos o canal a cada 45 segundos. O EventSource JS se reconectará sozinho de forma transparente mantendo 1 canal constante.
+                    if (microtime(true) - $startTime > 45) {
+                        break;
+                    }
+
+                    $current = cache('last_news_update', 0);
+                    if ($current > $lastCheck) {
+                        echo "data: updated\n\n";
+                        if (ob_get_level() > 0) ob_flush();
+                        flush();
+                        $lastCheck = $current;
+                    }
+
+                    sleep(1);
+                    
+                    // Ping inerte (comentário SSE) para o proxy reverso TCP
+                    echo ": heartbeat\n\n";
+                    if (ob_get_level() > 0) ob_flush();
+                    flush();
+                }
+            } catch (\Throwable $e) {
+                // Previne ErrorExceptions secundárias do Octane (Headers Already Sent) se a varredura crachar no worker
+            }
+        }, 200, [
+            'Cache-Control' => 'no-cache, no-transform',
+            'Content-Type' => 'text/event-stream',
+            'Connection' => 'keep-alive',
+            'X-Accel-Buffering' => 'no',
+        ]);
+    })->name('stream.news');
+
     // Espaço da Gestão (Totalmente integrado no Livewire em tempo real)
     Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
     
@@ -30,6 +84,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/news/create', \App\Livewire\Admin\News\Create::class)->name('admin.news.create');
     Route::get('/admin/news/{news}/edit', \App\Livewire\Admin\News\Edit::class)->name('admin.news.edit');
     Route::get('/admin/categories', \App\Livewire\Admin\Category\Index::class)->name('admin.categories.index');
+    Route::get('/admin/banners', \App\Livewire\Admin\Banners\Index::class)->name('admin.banners.index');
+    Route::get('/admin/analytics', \App\Livewire\Admin\Analytics\Dashboard::class)->name('admin.analytics.dashboard');
     Route::get('/admin/users', \App\Livewire\Admin\Users\Index::class)->name('admin.users.index');
     Route::get('/admin/users/trash', \App\Livewire\Admin\Users\Trash::class)->name('admin.users.trash');
     Route::get('/admin/audits', \App\Livewire\Admin\Audits\Index::class)->name('admin.audits.index');

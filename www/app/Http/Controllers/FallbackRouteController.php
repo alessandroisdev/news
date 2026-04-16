@@ -16,9 +16,16 @@ class FallbackRouteController extends Controller
      */
     public function resolve(string $slug)
     {
-        // 1. Categoria
         $category = Category::where('slug', $slug)->first();
         if ($category) {
+            // Track de Perfil 
+            $profile = request()->attributes->get('visitor_profile');
+            if ($profile) {
+                $scores = $profile->preferences_score ?? [];
+                $scores[$category->id] = ($scores[$category->id] ?? 0) + 2; // +2 por explorar a trilha
+                $profile->preferences_score = $scores;
+                $profile->save();
+            }
             return view('category.show', compact('category'));
         }
 
@@ -37,6 +44,15 @@ class FallbackRouteController extends Controller
             ->first();
             
         if ($news) {
+            // Track de Perfil 
+            $profile = request()->attributes->get('visitor_profile');
+            if ($profile) {
+                $scores = $profile->preferences_score ?? [];
+                $scores[$news->category_id] = ($scores[$news->category_id] ?? 0) + 1; // +1 por ler uma matéria
+                $profile->preferences_score = $scores;
+                $profile->save();
+            }
+
             $relatedNews = News::where('category_id', $news->category_id)
                 ->where('id', '!=', $news->id)
                 ->where('state', NewsStateEnum::PUBLISHED->value)

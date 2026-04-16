@@ -1,4 +1,11 @@
-<div>
+<div x-data x-init="
+    const evtSource = new EventSource('{{ route('stream.news') }}');
+    evtSource.onmessage = (event) => {
+        if(event.data === 'updated') {
+            $wire.$refresh();
+        }
+    };
+">
     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
         <div>
             <h3 class="fw-bolder text-dark mb-1" style="font-family: 'Outfit', sans-serif;">Gestão de Notícias</h3>

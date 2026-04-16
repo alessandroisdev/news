@@ -56,11 +56,18 @@
                         <i class="bi bi-journal-text me-2"></i> Minhas Notícias
                     </a>
                 </li>
+                @if(in_array(optional(auth()->user())->role, [\App\Enums\UserRoleEnum::ADMIN->value, \App\Enums\UserRoleEnum::MANAGER->value]))
                 <li class="nav-item">
                     <a href="{{ route('admin.categories.index') }}" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->is('admin/categories*') ? 'active' : '' }}">
                         <i class="bi bi-tags me-2"></i> Categorias SEO
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="/admin/banners" class="nav-link text-secondary px-3 py-2 border-0 {{ request()->is('admin/banners*') ? 'active' : '' }}">
+                        <i class="bi bi-megaphone me-2"></i> AdTech (Banners)
+                    </a>
+                </li>
+                @endif
                 
                 @if(optional(auth()->user())->role === \App\Enums\UserRoleEnum::ADMIN->value)
                 <li class="nav-item border-top mt-3 pt-3">
@@ -74,6 +81,11 @@
                     </a>
                 </li>
                 <li class="nav-item border-top mt-3 pt-3">
+                    <a href="/admin/analytics" class="nav-link text-success px-3 py-2 border-0 {{ request()->is('admin/analytics') ? 'active bg-success bg-opacity-10 fw-bold rounded-3' : '' }}">
+                        <i class="bi bi-pie-chart-fill me-2"></i> Engine Analytics
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('admin.audits.index') }}" class="nav-link text-warning px-3 py-2 border-0 {{ request()->routeIs('admin.audits.index') ? 'active bg-warning bg-opacity-10 fw-bold rounded-3' : '' }}">
                         <i class="bi bi-eye-fill me-2"></i> Auditoria de Eventos
                     </a>
